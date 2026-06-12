@@ -1,56 +1,53 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
+import '../theme/app_theme.dart';
 import '../widgets/custom_button.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
-
-  @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+class RegisterScreen extends StatefulWidget { 
+  const RegisterScreen({super.key}); 
+  @override State<RegisterScreen> createState() => _RegisterScreenState(); 
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _userController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _userController = TextEditingController(); 
+  final _emailController = TextEditingController(); 
+  final _passwordController = TextEditingController(); 
   bool _isLoading = false;
 
   void _handleRegister() async {
-    if (_userController.text.isEmpty || _emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Preencha todos os campos')));
-      return;
-    }
+    if (_userController.text.isEmpty || _emailController.text.isEmpty || _passwordController.text.isEmpty) return;
     setState(() => _isLoading = true);
     final success = await AuthService.instance.register(_userController.text, _emailController.text, _passwordController.text);
     setState(() => _isLoading = false);
-
-    if (success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Cadastro realizado com sucesso!')));
-      Navigator.of(context).pop();
-    } else if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Erro ao cadastrar. E-mail já existe.')));
+    if (success && mounted) { 
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Identidade criada com sucesso!'), backgroundColor: AppTheme.primary)); 
+      Navigator.of(context).pop(); 
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
+  @override Widget build(BuildContext context) { 
     return Scaffold(
-      appBar: AppBar(title: const Text('Criar Conta')),
+      appBar: AppBar(), 
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 28.0), 
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center, 
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextField(controller: _userController, decoration: const InputDecoration(labelText: 'Nome de Usuário', border: OutlineInputBorder())),
-            const SizedBox(height: 16),
-            TextField(controller: _emailController, decoration: const InputDecoration(labelText: 'E-mail', border: OutlineInputBorder())),
-            const SizedBox(height: 16),
-            TextField(controller: _passwordController, obscureText: true, decoration: const InputDecoration(labelText: 'Senha', border: OutlineInputBorder())),
-            const SizedBox(height: 24),
-            _isLoading ? const CircularProgressIndicator() : CustomButton(text: 'Cadastrar', onPressed: _handleRegister),
-          ],
-        ),
-      ),
-    );
+            const Text('Nova Identidade', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+            const SizedBox(height: 6),
+            const Text('Preencha os campos para ingressar no sistema.', style: TextStyle(color: AppTheme.textLight, fontSize: 14)),
+            const SizedBox(height: 32),
+            TextField(controller: _userController, decoration: const InputDecoration(labelText: 'Nome de Usuário')), 
+            const SizedBox(height: 14), 
+            TextField(controller: _emailController, decoration: const InputDecoration(labelText: 'Endereço de E-mail')), 
+            const SizedBox(height: 14), 
+            TextField(controller: _passwordController, obscureText: true, decoration: const InputDecoration(labelText: 'Senha Secreta')), 
+            const SizedBox(height: 28), 
+            _isLoading ? const Center(child: CircularProgressIndicator(color: AppTheme.secondary)) : CustomButton(text: 'Confirmar Cadastro', onPressed: _handleRegister)
+          ]
+        )
+      )
+    ); 
   }
 }

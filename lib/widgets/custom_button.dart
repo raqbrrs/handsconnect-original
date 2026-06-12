@@ -1,20 +1,28 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 class CustomButton extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed;
+  final String text; 
+  final VoidCallback onPressed; 
   final Color? color;
 
   const CustomButton({super.key, required this.text, required this.onPressed, this.color});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        gradient: color == null ? const LinearGradient(colors: [AppTheme.primary, AppTheme.secondary]) : null,
+        color: color,
+      ),
       child: ElevatedButton(
-        style: color != null ? ElevatedButton.styleFrom(backgroundColor: color) : null,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+        ),
         onPressed: onPressed,
-        child: Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        child: Text(text),
       ),
     );
   }
