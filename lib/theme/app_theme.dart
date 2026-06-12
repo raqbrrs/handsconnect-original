@@ -1,19 +1,19 @@
 ﻿import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const Color primary = Color(0xFF3F51B5);      // Azul Tecnológico
-  static const Color secondary = Color(0xFF7C4DFF);    // Roxo Neon
-  static const Color background = Color(0xFF0F111A);   // Fundo Escuro Minimalista (OLED/Tech)
-  static const Color surface = Color(0xFF161925);      // Cards e Containers
-  static const Color textDark = Color(0xFFFFFFFF);     // Texto Principal (Branco)
-  static const Color textLight = Color(0FontWeight8A99AD);    // Texto Secundário (Cinza Azulado)
+  static const Color primary = Color(0xFF1E3A8A);      // Azul Escuro Sofisticado
+  static const Color secondary = Color(0xFF3B82F6);    // Azul Royal Moderno
+  static const Color background = Color(0xFFF8FAFC);   // Fundo Branco Gelado (Clean)
+  static const Color surface = Color(0xFFFFFFFF);      // Cards Brancos Puros
+  static const Color textDark = Color(0xFF0F172A);     // Texto Principal (Preto Azulado)
+  static const Color textLight = Color(0xFF64748B);    // Texto Secundário (Cinza)
 
   static ThemeData get lightTheme {
     return ThemeData(
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
       primaryColor: primary,
       scaffoldBackgroundColor: background,
-      colorScheme: const ColorScheme.dark(
+      colorScheme: const ColorScheme.light(
         primary: primary,
         secondary: secondary,
         surface: surface,
@@ -28,18 +28,18 @@ class AppTheme {
         filled: true,
         fillColor: surface,
         labelStyle: const TextStyle(color: textLight, fontSize: 14),
-        floatingLabelStyle: const TextStyle(color: secondary),
+        floatingLabelStyle: const TextStyle(color: primary),
         contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: secondary, width: 1)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: primary, width: 1.5)),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: primary,
           foregroundColor: Colors.white,
           elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           padding: const EdgeInsets.symmetric(vertical: 18),
           textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, letterSpacing: 0.5),
         ),

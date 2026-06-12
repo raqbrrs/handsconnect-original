@@ -20,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final success = await AuthService.instance.register(_userController.text, _emailController.text, _passwordController.text);
     setState(() => _isLoading = false);
     if (success && mounted) { 
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Identidade criada com sucesso!'), backgroundColor: AppTheme.primary)); 
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Cadastro concluído!'), backgroundColor: AppTheme.primary)); 
       Navigator.of(context).pop(); 
     }
   }
@@ -34,17 +34,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           mainAxisAlignment: MainAxisAlignment.center, 
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Nova Identidade', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+            const Text('Criar Conta', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppTheme.textDark)),
             const SizedBox(height: 6),
-            const Text('Preencha os campos para ingressar no sistema.', style: TextStyle(color: AppTheme.textLight, fontSize: 14)),
+            const Text('Crie seu perfil para começar os estudos.', style: TextStyle(color: AppTheme.textLight, fontSize: 14)),
             const SizedBox(height: 32),
-            TextField(controller: _userController, decoration: const InputDecoration(labelText: 'Nome de Usuário')), 
+            TextField(controller: _userController, decoration: const InputDecoration(labelText: 'Nome Completo')), 
             const SizedBox(height: 14), 
-            TextField(controller: _emailController, decoration: const InputDecoration(labelText: 'Endereço de E-mail')), 
+            TextField(controller: _emailController, decoration: const InputDecoration(labelText: 'E-mail')), 
             const SizedBox(height: 14), 
-            TextField(controller: _passwordController, obscureText: true, decoration: const InputDecoration(labelText: 'Senha Secreta')), 
+            TextField(controller: _passwordController, obscureText: true, decoration: const InputDecoration(labelText: 'Senha')), 
             const SizedBox(height: 28), 
-            _isLoading ? const Center(child: CircularProgressIndicator(color: AppTheme.secondary)) : CustomButton(text: 'Confirmar Cadastro', onPressed: _handleRegister)
+            _isLoading ? const Center(child: CircularProgressIndicator(color: AppTheme.primary)) : CustomButton(text: 'Cadastrar', onPressed: _handleRegister)
           ]
         )
       )
