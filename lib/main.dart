@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import 'package:flutter/material.dart';
-import 'theme/app_theme.dart';
-import 'screens/splash_screen.dart';
-
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const HandsConnectApp());
-}
-
-class HandsConnectApp extends StatelessWidget {
-  const HandsConnectApp({super.key});
-=======
 ﻿import 'package:flutter/material.dart';
 
 void main() {
@@ -19,17 +6,12 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
->>>>>>> 565e70d (projeto)
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hands Connect',
       debugShowCheckedModeBanner: false,
-<<<<<<< HEAD
-      theme: AppTheme.lightTheme,
-      home: const SplashScreen(),
-=======
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFF8FAFC),
         primaryColor: const Color(0xFF0F172A), 
@@ -93,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Container(
                       height: 90,
                       decoration: const BoxDecoration(
-                        color: Colors.transparent, // CORRIGIDO PARA O TIPO CORRETO
+                        color: Colors.transparent,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(Icons.blur_on_rounded, size: 70, color: Color(0xFF38BDF8)),
@@ -186,7 +168,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
         elevation: 0,
-        // CORRIGIDO: Linha inferior minimalista implementada via shape
         shape: const Border(bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1)),
       ),
       body: SingleChildScrollView(
@@ -248,8 +229,10 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 32),
-            const Text('Análise de Desempenho', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B), letterSpacing: 0.5)),
+            const Text('Painel de Métricas Analíticas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B), letterSpacing: 0.5)),
             const SizedBox(height: 12),
+            
+            // PANEL DE DESEMPENHO ATUALIZADO COM NÚMEROS REAIS E DESIGN PREMIUM
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
@@ -257,28 +240,46 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(28),
                 border: Border.all(color: const Color(0xFFE2E8F0)),
               ),
-              child: Row(
+              child: Column(
                 children: [
-                  SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: CircularProgressIndicator(
-                      value: 0.65,
-                      strokeWidth: 5,
-                      backgroundColor: const Color(0xFFF1F5F9),
-                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF0F172A)),
-                    ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 55,
+                        height: 55,
+                        child: CircularProgressIndicator(
+                          value: 0.78,
+                          strokeWidth: 6,
+                          backgroundColor: const Color(0xFFF1F5F9),
+                          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF58CC02)), // Verde Duolingo
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('78% de Sincronia Neural', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
+                            SizedBox(height: 4),
+                            Text('Precisão de Ponto de Articulação Excl.', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                  const SizedBox(width: 24),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('65% de Sincronia', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF0F172A))),
-                        SizedBox(height: 4),
-                        Text('Módulo atual: Configuração Manual III', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 13)),
-                      ],
-                    ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    child: Divider(color: Color(0xFFF1F5F9), height: 1),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildStatusColumn('14/20', 'Exercícios'),
+                      Container(height: 25, width: 1, color: const Color(0xFFE2E8F0)),
+                      _buildStatusColumn('450', 'XP Total'),
+                      Container(height: 25, width: 1, color: const Color(0xFFE2E8F0)),
+                      _buildStatusColumn('5 dias', 'Ofensiva 🔥'),
+                    ],
                   )
                 ],
               ),
@@ -306,6 +307,17 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildStatusColumn(String numero, String legenda) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(numero, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
+        const SizedBox(height: 2),
+        Text(legenda, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF94A3B8))),
+      ],
+    );
+  }
+
   Widget _buildGridItem(BuildContext context, IconData icon, String label, Widget target) {
     return GestureDetector(
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => target)),
@@ -330,7 +342,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// --- 3. EXERCÍCIOS OFICIAIS DE LIBRAS (AULAS PRÁTICAS AVANÇADAS) ---
+// --- 3. EXERCÍCIOS OFICIAIS DE LIBRAS (EXPANDIDOS E MAIS ROBUSTOS) ---
 class AprenderScreen extends StatefulWidget {
   const AprenderScreen({super.key});
   @override
@@ -341,30 +353,62 @@ class _AprenderScreenState extends State<AprenderScreen> {
   final List<Map<String, String>> exerciciosMorfologia = [
     {
       'nome': 'Exercício 1: Configuração Manual (CM 4) 🐾',
-      'desc': 'Posicione a mão em formato de garra aberta. Mova verticalmente simulando o contorno facial.',
+      'desc': 'Posicione a mão ativa em formato de garra aberta. Faça um deslocamento vertical simulando o contorno facial.',
       'metrica': 'Alvo de Articulação: Espaço Neutro Frontal',
-      'tipo': 'Animal: Leão'
+      'tipo': 'Animal: Leão',
+      'nivel': 'Fácil'
     },
     {
       'nome': 'Exercício 2: Ponto de Articulação Bochecha 🐱',
-      'desc': 'Utilize os dedos indicador e polegar em pinça partindo da região zigomática para fora.',
+      'desc': 'Utilize os dedos indicador e polegar em formato de pinça partindo da região zigomática e puxando para fora.',
       'metrica': 'Alvo de Articulação: Toque Bochecha Lateral',
-      'tipo': 'Animal: Gato'
+      'tipo': 'Animal: Gato',
+      'nivel': 'Fácil'
+    },
+    {
+      'nome': 'Exercício 3: Configuração Manual em Y 🐢',
+      'desc': 'Abra a mão passiva horizontalmente para formar o casco e posicione a mão ativa em formato de "Y" fazendo movimentos lentos por baixo.',
+      'metrica': 'Configuração de Mão Complexa Unilateral',
+      'tipo': 'Animal: Tartaruga',
+      'nivel': 'Médio'
+    },
+    {
+      'nome': 'Exercício 4: Movimento Sinuoso de Eixo 🐍',
+      'desc': 'Una os dedos da mão ativa simulando a cabeça de uma cobra e realize movimentos ondulatórios lineares para a frente.',
+      'metrica': 'Direcionamento Espacial Contínuo',
+      'tipo': 'Animal: Cobra',
+      'nivel': 'Difícil'
     }
   ];
 
   final List<Map<String, String>> exerciciosLinguistica = [
     {
-      'nome': 'Exercício 3: Movimento Descendente Linear 🍌',
-      'desc': 'Mantenha a mão passiva estendida e efetuando a simulação de extração de camadas com a mão ativa.',
+      'nome': 'Exercício 5: Movimento Descendente Linear 🍌',
+      'desc': 'Mantenha a mão passiva estendida para cima e use a mão ativa para simular a extração de camadas de cima para baixo.',
       'metrica': 'Direcionamento: Eixo Vertical Inferior',
-      'tipo': 'Fruta: Banana'
+      'tipo': 'Fruta: Banana',
+      'nivel': 'Fácil'
     },
     {
-      'nome': 'Exercício 4: Rotação Orbital de Pulso 🍎',
-      'desc': 'Configuração de mão em "C" fechado sobre o eixo lateral da face, efetuando rotação de 45 graus.',
+      'nome': 'Exercício 6: Rotação Orbital de Pulso 🍎',
+      'desc': 'Gere uma configuração de mão em "C" fechado sobre a lateral da face, efetuando uma rotação leve de 45 graus.',
       'metrica': 'Direcionamento: Rotação Interna Angular',
-      'tipo': 'Fruta: Maçã'
+      'tipo': 'Fruta: Maçã',
+      'nivel': 'Fácil'
+    },
+    {
+      'nome': 'Exercício 7: Ponto de Contato no Queixo 🍫',
+      'desc': 'Configure a mão ativa com o dedo indicador dobrado (formato de gancho) raspando suavemente na base inferior do queixo.',
+      'metrica': 'Ponto de Articulação Facial Inferior',
+      'tipo': 'Doce: Chocolate',
+      'nivel': 'Médio'
+    },
+    {
+      'nome': 'Exercício 8: Datilologia Fluida de Conexão 🥛',
+      'desc': 'Gere o sinal de leite fazendo movimentos repetitivos de fechar e abrir a mão ativa, simulando o ordenhar.',
+      'metrica': 'Dinâmica Repetitiva de Falanges',
+      'tipo': 'Bebida: Leite',
+      'nivel': 'Médio'
     }
   ];
 
@@ -391,13 +435,14 @@ class _AprenderScreenState extends State<AprenderScreen> {
           backgroundColor: Colors.white,
           foregroundColor: const Color(0xFF0F172A),
           elevation: 0,
-          title: const Text('Módulos de Exercícios Oficiais', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          title: const Text('Laboratório Avançado de Libras', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
           shape: const Border(bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1)),
           bottom: const TabBar(
             labelColor: Color(0xFF0F172A),
             unselectedLabelColor: Color(0xFF94A3B8),
             indicatorColor: Color(0xFF0F172A),
             indicatorWeight: 3,
+            labelStyle: TextStyle(fontWeight: FontWeight.bold),
             tabs: [
               Tab(text: 'Eixo Animais'),
               Tab(text: 'Eixo Alimentos'),
@@ -420,6 +465,9 @@ class _AprenderScreenState extends State<AprenderScreen> {
       itemCount: itens.length,
       itemBuilder: (context, i) {
         bool isFav = FavoritosManager.listaFavoritos.any((element) => element['nome'] == itens[i]['nome']);
+        Color tagColor = itens[i]['nivel'] == 'Difícil' ? const Color(0xFFFEE2E2) : (itens[i]['nivel'] == 'Médio' ? const Color(0xFFFEF9C3) : const Color(0xFFDCFCE7));
+        Color fontTagColor = itens[i]['nivel'] == 'Difícil' ? const Color(0xFF991B1B) : (itens[i]['nivel'] == 'Médio' ? const Color(0xFF854D0E) : const Color(0xFF166534));
+
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 8),
           padding: const EdgeInsets.all(20),
@@ -434,10 +482,20 @@ class _AprenderScreenState extends State<AprenderScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(10)),
-                    child: Text(itens[i]['tipo']!, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF475569))),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(10)),
+                        child: Text(itens[i]['tipo']!, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF475569))),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(color: tagColor, borderRadius: BorderRadius.circular(10)),
+                        child: Text(itens[i]['nivel']!, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: fontTagColor)),
+                      ),
+                    ],
                   ),
                   IconButton(
                     icon: Icon(isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded, color: Colors.black87, size: 20),
@@ -446,7 +504,7 @@ class _AprenderScreenState extends State<AprenderScreen> {
                 ],
               ),
               const SizedBox(height: 12),
-              Text(itens[i]['nome']!, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF0F172A))),
+              Text(itens[i]['nome']!, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: Color(0xFF0F172A))),
               const SizedBox(height: 8),
               Text(itens[i]['desc']!, style: const TextStyle(color: Color(0xFF64748B), fontSize: 13, height: 1.4)),
               const Divider(height: 24, color: Color(0xFFF1F5F9)),
@@ -454,7 +512,7 @@ class _AprenderScreenState extends State<AprenderScreen> {
                 children: [
                   const Icon(Icons.bolt, size: 14, color: Color(0xFF38BDF8)),
                   const SizedBox(width: 6),
-                  Expanded(child: Text(itens[i]['metrica']!, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 11, fontWeight: FontWeight.w500))),
+                  Expanded(child: Text(itens[i]['metrica']!, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 11, fontWeight: FontWeight.bold))),
                 ],
               )
             ],
@@ -621,7 +679,7 @@ class VideoAulasScreen extends StatelessWidget {
   }
 }
 
-// --- 5. TELA DE FAVORITOS (CLEAN MINIMALIST) ---
+// --- 5. TELA DE FAVORITOS ---
 class FavoritosScreen extends StatefulWidget {
   const FavoritosScreen({super.key});
   @override
@@ -738,7 +796,7 @@ class _TradutorScreenState extends State<TradutorScreen> {
   }
 }
 
-// --- 7. CHAT CORE IA (MINIMAL INTERFACE) ---
+// --- 7. CHAT CORE IA ---
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
   @override
@@ -821,7 +879,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
-// --- 8. VALIDADOR DE QUIZ (MINIMALISTA TECH COM VETORES SIMULADOS) ---
+// --- 8. VALIDADOR DE QUIZ (EXPANDIDO COM MAIS PERGUNTAS - DUOLINGO PREMIUM STYLE) ---
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
   @override
@@ -835,10 +893,11 @@ class _QuizScreenState extends State<QuizScreen> {
   int _opcaoSelecionada = -1;
   bool _mostrouFeedback = false;
 
+  // BANCO DE DADOS DE QUIZ EXPANDIDO PARA 4 ETAPAS COMPLETAS
   final _perguntas = [
     {
       'q': 'Qual a movimentação padrão no sinal de BANANA 🍌?',
-      'imgLabel': 'VETOR: Direcional Descendente Unilateral',
+      'imgLabel': 'DIRECIONAL DESCENDENTE UNILATERAL',
       'icon': Icons.layers_rounded,
       'a': [
         {'t': 'Simulação de extração de camadas verticais', 'c': true},
@@ -847,11 +906,29 @@ class _QuizScreenState extends State<QuizScreen> {
     },
     {
       'q': 'O sinal gramatical de GATO 🐱 exige qual ponto de articulação?',
-      'imgLabel': 'VETOR: Ponto de Contato Zigomático',
+      'imgLabel': 'PONTO DE CONTATO ZIGOMÁTICO',
       'icon': Icons.face_retouching_natural_rounded,
       'a': [
         {'t': 'Região frontal do espaço neutro', 'c': false},
         {'t': 'Puxamento lateral próximo às bochechas', 'c': true},
+      ]
+    },
+    {
+      'q': 'Para estruturar o sinal de CHOCOLATE 🍫, qual formato de mão ativa é adotado?',
+      'imgLabel': 'CONFIGURAÇÃO EM GANCHO UNILATERAL',
+      'icon': Icons.cookie_rounded,
+      'a': [
+        {'t': 'Mão aberta em garra sobre a testa', 'c': false},
+        {'t': 'Dedo indicador dobrado raspando o queixo', 'c': true},
+      ]
+    },
+    {
+      'q': 'O sinal de TARTARUGA 🐢 mescla duas mãos em qual disposição visual?',
+      'imgLabel': 'COMPOSIÇÃO DE CASCO SOBREPOSTO',
+      'icon': Icons.waves_rounded,
+      'a': [
+        {'t': 'Mão passiva aberta servindo de teto/casco', 'c': true},
+        {'t': 'Ambas as mãos soltas simulando voo angular', 'c': false},
       ]
     }
   ];
@@ -861,10 +938,10 @@ class _QuizScreenState extends State<QuizScreen> {
     setState(() {
       _opcaoSelecionada = idxOpcao;
       _mostrouFeedback = true;
-      if (correta) _pontos += 10;
+      if (correta) _pontos += 25; // Fracionado por peso equilibrado
     });
 
-    Future.delayed(const Duration(milliseconds: 1200), () {
+    Future.delayed(const Duration(milliseconds: 1400), () {
       setState(() {
         if (_index < _perguntas.length - 1) {
           _index++;
@@ -879,86 +956,202 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double progresso = (_index + 1) / _perguntas.length;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(backgroundColor: Colors.white, foregroundColor: const Color(0xFF0F172A), title: const Text('Validação de Performance', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)), elevation: 0, shape: const Border(bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1))),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: _fim
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        foregroundColor: const Color(0xFF0F172A),
+        title: const Text('Desafio Prático', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 0.5)),
+        elevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.close_rounded, color: Color(0xFF94A3B8)),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          child: _fim
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: const BoxDecoration(color: Color(0xFFFEF08A), shape: BoxShape.circle),
+                        child: const Icon(Icons.emoji_events_rounded, size: 80, color: Color(0xFFEAB308)),
+                      ),
+                      const SizedBox(height: 28),
+                      const Text('Módulo Concluído!', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
+                      const SizedBox(height: 8),
+                      Text('Sua métrica de acerto final: $_pontos%', style: const TextStyle(fontSize: 15, color: Color(0xFF64748B), fontWeight: FontWeight.w500)),
+                      const SizedBox(height: 40),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 54,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF58CC02),
+                            elevation: 4,
+                            shadowColor: const Color(0xFF46A302),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('CONTINUAR', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Icon(Icons.check_circle_rounded, size: 70, color: Color(0xFF0F172A)),
-                    const SizedBox(height: 16),
-                    const Text('Validação Concluída', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF0F172A))),
-                    const SizedBox(height: 6),
-                    Text('Métrica final: $_pontos pts', style: const TextStyle(fontSize: 16, color: Color(0xFF64748B), fontWeight: FontWeight.w500)),
-                  ],
-                ),
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text('ETAPA ${_index + 1} DE ${_perguntas.length}', style: const TextStyle(color: Color(0xFF94A3B8), fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 1.0), textAlign: TextAlign.center),
-                  const SizedBox(height: 24),
-                  
-                  // BOX VETORIAL MINIMALISTA TECH
-                  Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0F172A),
-                      borderRadius: BorderRadius.circular(28),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    // BARRA DE PROGRESSO GEOMÉTRICA (ESTILO DUOLINGO)
+                    Row(
                       children: [
-                        Icon(_perguntas[_index]['icon'] as IconData, size: 40, color: const Color(0xFF38BDF8)),
-                        const SizedBox(height: 12),
-                        Text(_perguntas[_index]['imgLabel'] as String, style: const TextStyle(color: Color(0xFF94A3B8), fontWeight: FontWeight.bold, fontSize: 12, letterSpacing: 0.5)),
+                        Expanded(
+                          child: Container(
+                            height: 16,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFE2E8F0),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Stack(
+                              children: [
+                                LayoutBuilder(
+                                  builder: (context, constraints) => AnimatedContainer(
+                                    duration: const Duration(milliseconds: 300),
+                                    width: constraints.maxWidth * progresso,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF58CC02),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Text(
+                          '${_index + 1}/${_perguntas.length}',
+                          style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF94A3B8), fontSize: 14),
+                        )
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 32),
-                  
-                  Text(_perguntas[_index]['q'] as String, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)), textAlign: TextAlign.center),
-                  const SizedBox(height: 32),
-                  
-                  ...List.generate((_perguntas[_index]['a'] as List).length, (i) {
-                    var op = (_perguntas[_index]['a'] as List)[i];
-                    Color btnColor = Colors.white;
-                    Color txtColor = const Color(0xFF0F172A);
+                    const SizedBox(height: 36),
 
-                    if (_mostrouFeedback) {
-                      if (op['c'] == true) {
-                        btnColor = const Color(0xFFDCFCE7); 
-                        txtColor = const Color(0xFF15803D);
-                      } else if (_opcaoSelecionada == i) {
-                        btnColor = const Color(0xFFFEE2E2); 
-                        txtColor = const Color(0xFFB91C1C);
-                      }
-                    }
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                          backgroundColor: btnColor,
-                          side: BorderSide(color: _mostrouFeedback && op['c'] == true ? const Color(0xFF22C55E) : const Color(0xFFE2E8F0), width: 1.5),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-                          elevation: 0,
-                        ),
-                        onPressed: () => _validarResposta(i, op['c'] as bool),
-                        child: Text(op['t'] as String, style: TextStyle(color: txtColor, fontWeight: FontWeight.bold, fontSize: 14)),
+                    // CARD DE CONCEITO VETORIAL LÚDICO
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0F172A),
+                        borderRadius: BorderRadius.circular(28),
                       ),
-                    );
-                  }),
-                ],
-              ),
+                      child: Row(
+                        children: [
+                          Icon(_perguntas[_index]['icon'] as IconData, size: 36, color: const Color(0xFF38BDF8)),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('DIRETRIZ DE SINCRONIA', style: TextStyle(color: Color(0xFF38BDF8), fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 1.0)),
+                                const SizedBox(height: 4),
+                                Text(_perguntas[_index]['imgLabel'] as String, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+
+                    // PERGUNTA CENTRALIZADA
+                    Text(
+                      _perguntas[_index]['q'] as String,
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF0F172A), height: 1.3),
+                      textAlign: TextAlign.left,
+                    ),
+                    const SizedBox(height: 32),
+
+                    // LISTA DE ALTERNATIVAS EM BOTÕES 3D
+                    ...List.generate((_perguntas[_index]['a'] as List).length, (i) {
+                      var op = (_perguntas[_index]['a'] as List)[i];
+                      
+                      Color backColor = Colors.white;
+                      Color borderColor = const Color(0xFFE2E8F0);
+                      Color fontColor = const Color(0xFF334155);
+
+                      if (_mostrouFeedback) {
+                        if (op['c'] == true) {
+                          backColor = const Color(0xFFE8F5E9);
+                          borderColor = const Color(0xFF4CAF50);
+                          fontColor = const Color(0xFF1B5E20);
+                        } else if (_opcaoSelecionada == i) {
+                          backColor = const Color(0xFFFFEBEE);
+                          borderColor = const Color(0xFFF44336);
+                          fontColor = const Color(0xFFB71C1C);
+                        }
+                      } else if (_opcaoSelecionada == i) {
+                        borderColor = const Color(0xFF1E88E5);
+                        fontColor = const Color(0xFF1E88E5);
+                      }
+
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: GestureDetector(
+                          onTap: () => _validarResposta(i, op['c'] as bool),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 150),
+                            padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: backColor,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border(
+                                top: BorderSide(color: borderColor, width: 2),
+                                left: BorderSide(color: borderColor, width: 2),
+                                right: BorderSide(color: borderColor, width: 2),
+                                bottom: BorderSide(color: borderColor, width: 5.0),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: _mostrouFeedback && op['c'] == true ? const Color(0xFF4CAF50) : const Color(0xFFF1F5F9),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Text(
+                                    '${i + 1}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w900, 
+                                      color: _mostrouFeedback && op['c'] == true ? Colors.white : const Color(0xFF64748B),
+                                      fontSize: 12
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Text(
+                                    op['t'] as String,
+                                    style: TextStyle(color: fontColor, fontWeight: FontWeight.w800, fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+        ),
       ),
->>>>>>> 565e70d (projeto)
     );
   }
 }
