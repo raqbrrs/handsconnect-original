@@ -22,14 +22,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// --- GERENCIADOR DE ESTADO SIMPLES ---
-class FavoritosManager {
-  static final List<Map<String, String>> listaFavoritos = [
+// --- GERENCIADOR DE ESTADO GLOBAL (GAMIFICAÇÃO & PROGRESSÃO) ---
+class AppState {
+  static int xp = 450;
+  static int ofensiva = 5;
+  static int nivelAtualMaximoDesbloqueado = 1;
+  static List<String> medalhas = ['Pioneira 🏅', 'Primeiro Passo 🚀'];
+  
+  static List<Map<String, String>> listaFavoritos = [
     {'nome': 'Sinal de Obrigado 👋', 'desc': 'Mão aberta tocando a testa e saindo para a frente.'}
   ];
 }
 
-// --- 1. TELA DE LOGIN (MINIMALISTA & TECH) ---
+// --- 1. TELA DE LOGIN ---
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   @override
@@ -63,23 +68,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  TweenAnimationBuilder(
-                    tween: Tween<double>(begin: 0, end: 1),
-                    duration: const Duration(milliseconds: 800),
-                    builder: (context, double value, child) {
-                      return Opacity(
-                        opacity: value,
-                        child: Transform.scale(scale: value, child: child),
-                      );
-                    },
-                    child: Container(
-                      height: 90,
-                      decoration: const BoxDecoration(
-                        color: Colors.transparent,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.blur_on_rounded, size: 70, color: Color(0xFF38BDF8)),
-                    ),
+                  Container(
+                    height: 90,
+                    decoration: const BoxDecoration(color: Colors.transparent, shape: BoxShape.circle),
+                    child: const Icon(Icons.blur_on_rounded, size: 70, color: Color(0xFF38BDF8)),
                   ),
                   const SizedBox(height: 24),
                   const Text(
@@ -143,12 +135,18 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-// --- 2. TELA PRINCIPAL (HOME ECOSYSTEM) ---
-class HomeScreen extends StatelessWidget {
+// --- 2. TELA PRINCIPAL (HOME) ---
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    double progressoNivel = (AppState.nivelAtualMaximoDesbloqueado / 5);
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
@@ -181,11 +179,10 @@ class HomeScreen extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TradutorScreen())),
                     child: Container(
-                      height: 150,
+                      height: 130,
                       decoration: BoxDecoration(
                         color: const Color(0xFF0F172A),
                         borderRadius: BorderRadius.circular(28),
-                        boxShadow: [BoxShadow(color: const Color(0xFF0F172A).withOpacity(0.15), blurRadius: 20, offset: const Offset(0, 8))],
                       ),
                       child: const Padding(
                         padding: EdgeInsets.all(20.0),
@@ -193,8 +190,8 @@ class HomeScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.filter_center_focus_rounded, color: Color(0xFF38BDF8), size: 32),
-                            Text('Computer Vision\nTradutor Câmera', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15, height: 1.3)),
+                            Icon(Icons.filter_center_focus_rounded, color: Color(0xFF38BDF8), size: 28),
+                            Text('Computer Vision\nTradutor Câmera', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
                           ],
                         ),
                       ),
@@ -206,7 +203,7 @@ class HomeScreen extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AprenderScreen())),
                     child: Container(
-                      height: 150,
+                      height: 130,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(28),
@@ -218,8 +215,8 @@ class HomeScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.model_training_rounded, color: Color(0xFF0F172A), size: 32),
-                            Text('Laboratório de\nExercícios Práticos', style: TextStyle(color: Color(0xFF0F172A), fontWeight: FontWeight.bold, fontSize: 15, height: 1.3)),
+                            Icon(Icons.model_training_rounded, color: Color(0xFF0F172A), size: 28),
+                            Text('Laboratório de\nExercícios Práticos', style: TextStyle(color: Color(0xFF0F172A), fontWeight: FontWeight.bold, fontSize: 14)),
                           ],
                         ),
                       ),
@@ -228,11 +225,10 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 32),
-            const Text('Painel de Métricas Analíticas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B), letterSpacing: 0.5)),
+            const SizedBox(height: 28),
+            const Text('Painel de Métricas Analíticas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
             const SizedBox(height: 12),
             
-            // PANEL DE DESEMPENHO ATUALIZADO COM NÚMEROS REAIS E DESIGN PREMIUM
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
@@ -248,20 +244,20 @@ class HomeScreen extends StatelessWidget {
                         width: 55,
                         height: 55,
                         child: CircularProgressIndicator(
-                          value: 0.78,
+                          value: progressoNivel,
                           strokeWidth: 6,
                           backgroundColor: const Color(0xFFF1F5F9),
-                          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF58CC02)), // Verde Duolingo
+                          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF58CC02)),
                         ),
                       ),
                       const SizedBox(width: 20),
-                      const Expanded(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('78% de Sincronia Neural', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
-                            SizedBox(height: 4),
-                            Text('Precisão de Ponto de Articulação Excl.', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
+                            Text('Trilha de Aprendizado: Nível ${AppState.nivelAtualMaximoDesbloqueado}/5', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
+                            const SizedBox(height: 4),
+                            Text('Medalhas: ${AppState.medalhas.join("  ")}', style: const TextStyle(color: Color(0xFF64748B), fontSize: 12)),
                           ],
                         ),
                       )
@@ -274,18 +270,18 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildStatusColumn('14/20', 'Exercícios'),
+                      _buildStatusColumn('${AppState.xp}', 'XP Total'),
                       Container(height: 25, width: 1, color: const Color(0xFFE2E8F0)),
-                      _buildStatusColumn('450', 'XP Total'),
+                      _buildStatusColumn('${AppState.ofensiva} dias', 'Ofensiva 🔥'),
                       Container(height: 25, width: 1, color: const Color(0xFFE2E8F0)),
-                      _buildStatusColumn('5 dias', 'Ofensiva 🔥'),
+                      _buildStatusColumn('${AppState.nivelAtualMaximoDesbloqueado * 4}', 'Fases Finais'),
                     ],
                   )
                 ],
               ),
             ),
-            const SizedBox(height: 32),
-            const Text('Grid de Módulos', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B), letterSpacing: 0.5)),
+            const SizedBox(height: 28),
+            const Text('Navegação de Subsistemas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
             const SizedBox(height: 16),
             GridView.count(
               crossAxisCount: 2,
@@ -293,12 +289,12 @@ class HomeScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               mainAxisSpacing: 16,
               crossAxisSpacing: 16,
-              childAspectRatio: 1.25,
+              childAspectRatio: 1.3,
               children: [
-                _buildGridItem(context, Icons.favorite_border_rounded, 'Coleção de Favoritos', const FavoritosScreen()),
-                _buildGridItem(context, Icons.terminal_rounded, 'Assistente Core IA', const ChatScreen()),
-                _buildGridItem(context, Icons.video_library_rounded, 'Streaming de Aulas', const VideoAulasScreen()),
-                _buildGridItem(context, Icons.analytics_rounded, 'Validador de Quiz', const QuizScreen()),
+                _buildGridItem(context, Icons.analytics_rounded, 'Desafio Quiz Trilha', const QuizFasesScreen(), true),
+                _buildGridItem(context, Icons.terminal_rounded, 'Professor Virtual IA', const ChatScreen(), false),
+                _buildGridItem(context, Icons.video_library_rounded, 'Aulas Gravadas', const VideoAulasScreen(), false),
+                _buildGridItem(context, Icons.favorite_border_rounded, 'Meus Favoritos', const FavoritosScreen(), false),
               ],
             ),
           ],
@@ -309,32 +305,33 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildStatusColumn(String numero, String legenda) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(numero, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
+        Text(numero, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
         const SizedBox(height: 2),
         Text(legenda, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF94A3B8))),
       ],
     );
   }
 
-  Widget _buildGridItem(BuildContext context, IconData icon, String label, Widget target) {
+  Widget _buildGridItem(BuildContext context, IconData icon, String label, Widget target, bool destacar) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => target)),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => target)).then((value) => setState(() {}));
+      },
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: destacar ? const Color(0xFFDCFCE7) : Colors.white,
           borderRadius: BorderRadius.circular(28),
-          border: Border.all(color: const Color(0xFFE2E8F0)),
+          border: Border.all(color: destacar ? const Color(0xFF4CAF50) : const Color(0xFFE2E8F0)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, color: const Color(0xFF0F172A), size: 26),
+            Icon(icon, color: destacar ? const Color(0xFF166534) : const Color(0xFF0F172A), size: 26),
             const SizedBox(height: 14),
-            Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF334155), fontSize: 13)),
+            Text(label, style: TextStyle(fontWeight: FontWeight.w900, color: destacar ? const Color(0xFF166534) : const Color(0xFF334155), fontSize: 13)),
           ],
         ),
       ),
@@ -342,7 +339,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// --- 3. EXERCÍCIOS OFICIAIS DE LIBRAS (EXPANDIDOS E MAIS ROBUSTOS) ---
+// --- 3. LABORATÓRIO DE EXERCÍCIOS PRÁTICOS E INTUITIVOS ---
 class AprenderScreen extends StatefulWidget {
   const AprenderScreen({super.key});
   @override
@@ -351,79 +348,15 @@ class AprenderScreen extends StatefulWidget {
 
 class _AprenderScreenState extends State<AprenderScreen> {
   final List<Map<String, String>> exerciciosMorfologia = [
-    {
-      'nome': 'Exercício 1: Configuração Manual (CM 4) 🐾',
-      'desc': 'Posicione a mão ativa em formato de garra aberta. Faça um deslocamento vertical simulando o contorno facial.',
-      'metrica': 'Alvo de Articulação: Espaço Neutro Frontal',
-      'tipo': 'Animal: Leão',
-      'nivel': 'Fácil'
-    },
-    {
-      'nome': 'Exercício 2: Ponto de Articulação Bochecha 🐱',
-      'desc': 'Utilize os dedos indicador e polegar em formato de pinça partindo da região zigomática e puxando para fora.',
-      'metrica': 'Alvo de Articulação: Toque Bochecha Lateral',
-      'tipo': 'Animal: Gato',
-      'nivel': 'Fácil'
-    },
-    {
-      'nome': 'Exercício 3: Configuração Manual em Y 🐢',
-      'desc': 'Abra a mão passiva horizontalmente para formar o casco e posicione a mão ativa em formato de "Y" fazendo movimentos lentos por baixo.',
-      'metrica': 'Configuração de Mão Complexa Unilateral',
-      'tipo': 'Animal: Tartaruga',
-      'nivel': 'Médio'
-    },
-    {
-      'nome': 'Exercício 4: Movimento Sinuoso de Eixo 🐍',
-      'desc': 'Una os dedos da mão ativa simulando a cabeça de uma cobra e realize movimentos ondulatórios lineares para a frente.',
-      'metrica': 'Direcionamento Espacial Contínuo',
-      'tipo': 'Animal: Cobra',
-      'nivel': 'Difícil'
-    }
+    {'nome': 'Alfabeto Manual: Letra A 👍', 'desc': 'Feche a mão ativa deixando o polegar posicionado de forma lateral e esticado ao lado do indicador.', 'metrica': 'Alvo: Configuração de Mão Estática', 'tipo': 'Nível 1: Iniciante'},
+    {'nome': 'Cumprimentos: Sinal de Oi 👋', 'desc': 'Faça a letra O e em seguida levante o dedo mínimo formando a letra I, movendo levemente para o lado.', 'metrica': 'Alvo: Transição Fluida Orbital', 'tipo': 'Nível 1: Iniciante'},
+    {'nome': 'Sinal de Gato 🐱', 'desc': 'Puxe os dedos indicador e polegar em formato de pinça partindo das bochechas simulando os bigodes.', 'metrica': 'Alvo: Ponto de Articulação Facial', 'tipo': 'Nível 2: Básico'},
   ];
 
   final List<Map<String, String>> exerciciosLinguistica = [
-    {
-      'nome': 'Exercício 5: Movimento Descendente Linear 🍌',
-      'desc': 'Mantenha a mão passiva estendida para cima e use a mão ativa para simular a extração de camadas de cima para baixo.',
-      'metrica': 'Direcionamento: Eixo Vertical Inferior',
-      'tipo': 'Fruta: Banana',
-      'nivel': 'Fácil'
-    },
-    {
-      'nome': 'Exercício 6: Rotação Orbital de Pulso 🍎',
-      'desc': 'Gere uma configuração de mão em "C" fechado sobre a lateral da face, efetuando uma rotação leve de 45 graus.',
-      'metrica': 'Direcionamento: Rotação Interna Angular',
-      'tipo': 'Fruta: Maçã',
-      'nivel': 'Fácil'
-    },
-    {
-      'nome': 'Exercício 7: Ponto de Contato no Queixo 🍫',
-      'desc': 'Configure a mão ativa com o dedo indicador dobrado (formato de gancho) raspando suavemente na base inferior do queixo.',
-      'metrica': 'Ponto de Articulação Facial Inferior',
-      'tipo': 'Doce: Chocolate',
-      'nivel': 'Médio'
-    },
-    {
-      'nome': 'Exercício 8: Datilologia Fluida de Conexão 🥛',
-      'desc': 'Gere o sinal de leite fazendo movimentos repetitivos de fechar e abrir a mão ativa, simulando o ordenhar.',
-      'metrica': 'Dinâmica Repetitiva de Falanges',
-      'tipo': 'Bebida: Leite',
-      'nivel': 'Médio'
-    }
+    {'nome': 'Sinal de Expressão de Dúvida 🤨', 'desc': 'Sinale "Por que" franzindo levemente as sobrancelhas e inclinando a cabeça levemente para trás.', 'metrica': 'Alvo: Expressão Facial Gramatical', 'tipo': 'Nível 3: Intermediário'},
+    {'nome': 'Sinal de Chocolate 🍫', 'desc': 'Mão em formato de gancho raspando suavemente na base inferior do queixo em movimentos cíclicos.', 'metrica': 'Alvo: Movimento Cíclico de Atrito', 'tipo': 'Nível 2: Básico'},
   ];
-
-  void _alternarFavorito(Map<String, String> item) {
-    setState(() {
-      bool existe = FavoritosManager.listaFavoritos.any((element) => element['nome'] == item['nome']);
-      if (existe) {
-        FavoritosManager.listaFavoritos.removeWhere((element) => element['nome'] == item['nome']);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Exercício removido dos logs!')));
-      } else {
-        FavoritosManager.listaFavoritos.add(item);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Exercício favoritado no Workspace! 🎉'), backgroundColor: Colors.black87));
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -435,86 +368,43 @@ class _AprenderScreenState extends State<AprenderScreen> {
           backgroundColor: Colors.white,
           foregroundColor: const Color(0xFF0F172A),
           elevation: 0,
-          title: const Text('Laboratório Avançado de Libras', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
-          shape: const Border(bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1)),
+          title: const Text('Laboratório Prático de Libras', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
           bottom: const TabBar(
             labelColor: Color(0xFF0F172A),
             unselectedLabelColor: Color(0xFF94A3B8),
             indicatorColor: Color(0xFF0F172A),
-            indicatorWeight: 3,
-            labelStyle: TextStyle(fontWeight: FontWeight.bold),
-            tabs: [
-              Tab(text: 'Eixo Animais'),
-              Tab(text: 'Eixo Alimentos'),
-            ],
+            tabs: [Tab(text: 'Eixo Fundamentos'), Tab(text: 'Eixo Avançado')],
           ),
         ),
         body: TabBarView(
           children: [
-            _buildLaboratorioLabs(exerciciosMorfologia),
-            _buildLaboratorioLabs(exerciciosLinguistica),
+            _buildListaLabs(exerciciosMorfologia),
+            _buildListaLabs(exerciciosLinguistica),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildLaboratorioLabs(List<Map<String, String>> itens) {
+  Widget _buildListaLabs(List<Map<String, String>> itens) {
     return ListView.builder(
       padding: const EdgeInsets.all(20),
       itemCount: itens.length,
       itemBuilder: (context, i) {
-        bool isFav = FavoritosManager.listaFavoritos.any((element) => element['nome'] == itens[i]['nome']);
-        Color tagColor = itens[i]['nivel'] == 'Difícil' ? const Color(0xFFFEE2E2) : (itens[i]['nivel'] == 'Médio' ? const Color(0xFFFEF9C3) : const Color(0xFFDCFCE7));
-        Color fontTagColor = itens[i]['nivel'] == 'Difícil' ? const Color(0xFF991B1B) : (itens[i]['nivel'] == 'Médio' ? const Color(0xFF854D0E) : const Color(0xFF166534));
-
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 8),
           padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
-          ),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), border: Border.all(color: const Color(0xFFE2E8F0))),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(10)),
-                        child: Text(itens[i]['tipo']!, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF475569))),
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                        decoration: BoxDecoration(color: tagColor, borderRadius: BorderRadius.circular(10)),
-                        child: Text(itens[i]['nivel']!, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: fontTagColor)),
-                      ),
-                    ],
-                  ),
-                  IconButton(
-                    icon: Icon(isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded, color: Colors.black87, size: 20),
-                    onPressed: () => _alternarFavorito(itens[i]),
-                  )
-                ],
-              ),
-              const SizedBox(height: 12),
+              Text(itens[i]['tipo']!, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF38BDF8))),
+              const SizedBox(height: 6),
               Text(itens[i]['nome']!, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: Color(0xFF0F172A))),
               const SizedBox(height: 8),
               Text(itens[i]['desc']!, style: const TextStyle(color: Color(0xFF64748B), fontSize: 13, height: 1.4)),
-              const Divider(height: 24, color: Color(0xFFF1F5F9)),
-              Row(
-                children: [
-                  const Icon(Icons.bolt, size: 14, color: Color(0xFF38BDF8)),
-                  const SizedBox(width: 6),
-                  Expanded(child: Text(itens[i]['metrica']!, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 11, fontWeight: FontWeight.bold))),
-                ],
-              )
+              const Divider(height: 20, color: Color(0xFFF1F5F9)),
+              Text(itens[i]['metrica']!, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 11, fontWeight: FontWeight.bold)),
             ],
           ),
         );
@@ -523,7 +413,385 @@ class _AprenderScreenState extends State<AprenderScreen> {
   }
 }
 
-// --- 4. STREAMING DE VÍDEO AULAS INTERATIVAS ---
+// --- 4. CHAT INTELIGENTE DO PROFESSOR VIRTUAL DE LIBRAS ---
+class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key});
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final List<Map<String, String>> _messages = [
+    {"sender": "ia", "text": "Olá Raquel! Sou o seu Professor Virtual 24h. Posso te ensinar sinais passo a passo, explicar expressões faciais, corrigir erros ou criar exercícios personalizados. O que quer treinar agora?"}
+  ];
+  final _controller = TextEditingController();
+
+  void _processarRespostaIA(String textoUsuario) {
+    String resposta = "Interessante! Para executar esse parâmetro em Libras, lembre-se de sincronizar a configuração da mão com a expressão facial correta. Quer que eu detalhe o passo a passo?";
+    String txtLower = textoUsuario.toLowerCase();
+
+    if (txtLower.contains("oi") || txtLower.contains("olá")) {
+      resposta = "Olá! Vamos treinar hoje? Posso te passar o passo a passo do alfabeto manual ou criar um exercício adaptado para você.";
+    } else if (txtLower.contains("gato") || txtLower.contains("sinal")) {
+      resposta = "Explicando o sinal de GATO 🐱 passo a passo:\n1. Configure a mão em pinça (dedos polegar e indicador).\n2. Encoste na bochecha (ponto de articulação).\n3. Puxe para fora simulando os bigodes. Tente fazer aí na câmera!";
+    } else if (txtLower.contains("expressão") || txtLower.contains("facial")) {
+      resposta = "Excelente ponto! Em Libras, as expressões faciais e corporais determinam a entonação da frase (se é pergunta, exclamação ou sentimento). Por exemplo, para indicar dúvida, franza as sobrancelhas levemente.";
+    } else if (txtLower.contains("exercício") || txtLower.contains("treino")) {
+      resposta = "Criando Exercício Personalizado de Nível Iniciante adaptado para você:\n👉 Execute a datilologia da palavra 'AMOR' letra por letra. Precisa de ajuda com alguma letra?";
+    } else if (txtLower.contains("erro") || txtLower.contains("corrigir")) {
+      resposta = "A IA detectou uma leve inclinação errada no seu pulso durante o último treino com câmera. Lembre-se de manter o eixo neutro em 90 graus para não distorcer o sinal de BANANA.";
+    }
+
+    setState(() {
+      _messages.add({"sender": "ia", "text": resposta});
+    });
+  }
+
+  void _sendMessage() {
+    if (_controller.text.isEmpty) return;
+    String userText = _controller.text;
+    setState(() {
+      _messages.add({"sender": "user", "text": userText});
+    });
+    _controller.clear();
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      _processarRespostaIA(userText);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
+      appBar: AppBar(backgroundColor: Colors.white, foregroundColor: const Color(0xFF0F172A), title: const Text('Professor Virtual Libras IA', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15)), elevation: 0),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(24),
+              itemCount: _messages.length,
+              itemBuilder: (context, i) {
+                final isUser = _messages[i]["sender"] == "user";
+                return Align(
+                  alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                    decoration: BoxDecoration(
+                      color: isUser ? const Color(0xFF0F172A) : Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: isUser ? null : Border.all(color: const Color(0xFFE2E8F0)),
+                    ),
+                    child: Text(_messages[i]["text"]!, style: TextStyle(color: isUser ? Colors.white : const Color(0xFF334155), fontSize: 14, fontWeight: FontWeight.w500, height: 1.3)),
+                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: InputDecoration(
+                      hintText: 'Tire dúvidas, peça um sinal ou exercício...',
+                      filled: true,
+                      fillColor: Colors.white,
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
+                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF0F172A))),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                IconButton(icon: const Icon(Icons.send_rounded, color: Color(0xFF0F172A)), onPressed: _sendMessage),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+// --- 5. SELEÇÃO DE FASES DO QUIZ (ESTILO DUOLINGO PROGRESSIVO) ---
+class QuizFasesScreen extends StatefulWidget {
+  const QuizFasesScreen({super.key});
+  @override
+  State<QuizFasesScreen> createState() => _QuizFasesScreenState();
+}
+
+class _QuizFasesScreenState extends State<QuizFasesScreen> {
+  final List<Map<String, dynamic>> niveisConfig = [
+    {'id': 1, 'titulo': 'Nível 1: Iniciante', 'sub': 'Alfabeto, Números e Cumprimentos', 'icon': Icons.abc_rounded},
+    {'id': 2, 'titulo': 'Nível 2: Básico', 'sub': 'Família, Cores e Rotinas cotidianas', 'icon': Icons.home_rounded},
+    {'id': 3, 'titulo': 'Nível 3: Intermediário', 'sub': 'Construção de Frases e Verbos', 'icon': Icons.forum_rounded},
+    {'id': 4, 'titulo': 'Nível 4: Avançado', 'sub': 'Narrativas Longas e Contexto Profissional', 'icon': Icons.work_rounded},
+    {'id': 5, 'titulo': 'Nível 5: Fluência', 'sub': 'Conversação em Velocidade Real e Complexa', 'icon': Icons.bolt_rounded},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(backgroundColor: Colors.white, foregroundColor: const Color(0xFF0F172A), elevation: 0, title: const Text('Trilha de Níveis Hands Connect', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16))),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(24),
+        itemCount: niveisConfig.length,
+        itemBuilder: (context, index) {
+          var nv = niveisConfig[index];
+          bool bloqueado = nv['id'] > AppState.nivelAtualMaximoDesbloqueado;
+
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: bloqueado ? const Color(0xFFF1F5F9) : Colors.white,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: bloqueado ? const Color(0xFFE2E8F0) : const Color(0xFF58CC02), width: 2),
+            ),
+            child: ListTile(
+              contentPadding: const EdgeInsets.all(20),
+              leading: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(color: bloqueado ? const Color(0xFFCBD5E1) : const Color(0xFF58CC02), shape: BoxShape.circle),
+                child: Icon(bloqueado ? Icons.lock_rounded : nv['icon'] as IconData, color: Colors.white, size: 24),
+              ),
+              title: Text(nv['titulo'] as String, style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: bloqueado ? const Color(0xFF94A3B8) : const Color(0xFF0F172A))),
+              subtitle: Text(nv['sub'] as String, style: const TextStyle(fontSize: 12, color: Color(0xFF64748B), height: 1.3)),
+              trailing: bloqueado 
+                ? null 
+                : const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF58CC02), size: 18),
+              onTap: bloqueado ? () {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('🔒 Complete o nível anterior para desbloquear esta fase!'), backgroundColor: Colors.black87));
+              } : () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => QuizJogoEngine(nivelSelecionado: nv['id'] as int))).then((value) {
+                  setState(() {});
+                });
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// --- 6. MOTOR DE JOGO DO QUIZ (TIPOS DIVERSIFICADOS DE QUESTÕES) ---
+class QuizJogoEngine extends StatefulWidget {
+  final int nivelSelecionado;
+  const QuizJogoEngine({super.key, required this.nivelSelecionado});
+  @override
+  State<QuizJogoEngine> createState() => _QuizJogoEngineState();
+}
+
+class _QuizJogoEngineState extends State<QuizJogoEngine> {
+  int _indexQuestao = 0;
+  bool _finalizado = false;
+  int _opcaoSelecionada = -1;
+  bool _feedbackLiberado = false;
+
+  final Map<int, List<Map<String, dynamic>>> bancoQuestoesPorNivel = {
+    1: [
+      {
+        'tipo': 'IDENTIFICAÇÃO DE SINAL',
+        'q': 'Qual o significado do sinal executado com a configuração em formato da letra L batendo levemente no queixo?',
+        'a': [{'t': 'Sinal de CUMPRIMENTO: Boa Tarde', 'c': false}, {'t': 'Sinal de NÚMERO: Quantidade de anos/idade', 'c': true}]
+      },
+      {
+        'tipo': 'EXERCÍCIO COM CÂMERA EMULADA',
+        'q': 'Ative sua câmera e execute o alfabeto manual correspondente à letra inicial do seu nome.',
+        'a': [{'t': 'Posicionar a mão em formato correto de pinça', 'c': true}, {'t': 'Manter o braço totalmente fechado no tronco', 'c': false}]
+      }
+    ],
+    2: [
+      {
+        'tipo': 'COMPLETAR FRASES',
+        'q': 'Complete o contexto da frase: "MINHA MÃE TRABALHAR LOJA ____" (Sinal de cor de uniforme)',
+        'a': [{'t': 'Sinal da cor AZUL (Mão em formato de A girando para Z)', 'c': true}, {'t': 'Sinal da cor VERDE (Mão raspando o dorso)', 'c': false}]
+      }
+    ],
+    3: [
+      {
+        'tipo': 'INTERPRETAÇÃO DE VÍDEOS',
+        'q': 'Análise da estrutura sintática: O verbo ir foi conjugado no espaço neutro lateral direcionado.',
+        'a': [{'t': 'Sim, indica ponto de destino contextual', 'c': true}, {'t': 'Não, indica apenas erro posicional', 'c': false}]
+      }
+    ],
+    4: [
+      {
+        'tipo': 'NARRATIVAS E CONTEXTO',
+        'q': 'Em uma interpretação jurídica profissional, o sinal de LEI deve obrigatoriamente tocar qual superfície?',
+        'a': [{'t': 'A palma da mão passiva aberta verticalmente', 'c': true}, {'t': 'O espaço neutro frontal inferior', 'c': false}]
+      }
+    ],
+    5: [
+      {
+        'tipo': 'CONVERSAÇÃO NATURAL REAL',
+        'q': 'Em velocidade de conversação natural avançada, a omissão de pronomes repetitivos é permitida?',
+        'a': [{'t': 'Sim, a marcação ocular substitui pronomes', 'c': true}, {'t': 'Não, quebra totalmente a gramática oficial', 'c': false}]
+      }
+    ]
+  };
+
+  void _validarAlternativa(int idx, bool correta) {
+    if (_feedbackLiberado) return;
+    setState(() {
+      _opcaoSelecionada = idx;
+      _feedbackLiberado = true;
+    });
+
+    Future.delayed(const Duration(milliseconds: 1400), () {
+      var listaFase = bancoQuestoesPorNivel[widget.nivelSelecionado]!;
+      setState(() {
+        if (_indexQuestao < listaFase.length - 1) {
+          _indexQuestao++;
+          _opcaoSelecionada = -1;
+          _feedbackLiberado = false;
+        } else {
+          _finalizado = true;
+          AppState.xp += 50;
+          if (widget.nivelSelecionado == AppState.nivelAtualMaximoDesbloqueado && AppState.nivelAtualMaximoDesbloqueado < 5) {
+            AppState.nivelAtualMaximoDesbloqueado++;
+            if (AppState.nivelAtualMaximoDesbloqueado == 3) {
+              AppState.medalhas.add('Intermediária 🏆');
+            }
+          }
+        }
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var listaFase = bancoQuestoesPorNivel[widget.nivelSelecionado] ?? [];
+    if (listaFase.isEmpty) return const Scaffold(body: Center(child: Text("Fase Em Desenvolvimento")));
+    
+    double progresso = (_indexQuestao + 1) / listaFase.length;
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        foregroundColor: const Color(0xFF0F172A),
+        title: Text('Desafio Nível ${widget.nivelSelecionado}', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+        elevation: 0,
+        leading: IconButton(icon: const Icon(Icons.close_rounded), onPressed: () => Navigator.pop(context)),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          child: _finalizado
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(padding: const EdgeInsets.all(24), decoration: const BoxDecoration(color: Color(0xFFFEF08A), shape: BoxShape.circle), child: const Icon(Icons.emoji_events_rounded, size: 70, color: Color(0xFFEAB308))),
+                      const SizedBox(height: 24),
+                      const Text('Fase Concluída! 🎉', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
+                      const SizedBox(height: 8),
+                      const Text('Você ganhou +50 XP e desbloqueou a próxima trilha!', style: TextStyle(fontSize: 14, color: Color(0xFF64748B), fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                      const SizedBox(height: 40),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 54,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF58CC02), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), elevation: 4, shadowColor: const Color(0xFF46A302)),
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('VOLTAR PARA A TRILHA', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 14,
+                            decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(20)),
+                            child: Stack(
+                              children: [
+                                AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  width: MediaQuery.of(context).size.width * 0.7 * progresso,
+                                  decoration: BoxDecoration(color: const Color(0xFF58CC02), borderRadius: BorderRadius.circular(20)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Text('${_indexQuestao + 1}/${listaFase.length}', style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF94A3B8))),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                      decoration: BoxDecoration(color: const Color(0xFF0F172A), borderRadius: BorderRadius.circular(12)),
+                      child: Text(listaFase[_indexQuestao]['tipo'] as String, style: const TextStyle(color: Color(0xFF38BDF8), fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 1.0)),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(listaFase[_indexQuestao]['q'] as String, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF0F172A), height: 1.3)),
+                    const SizedBox(height: 32),
+                    ...List.generate((listaFase[_indexQuestao]['a'] as List).length, (i) {
+                      var op = (listaFase[_indexQuestao]['a'] as List)[i];
+                      Color backColor = Colors.white;
+                      Color borderColor = const Color(0xFFE2E8F0);
+                      Color fontColor = const Color(0xFF334155);
+
+                      if (_feedbackLiberado) {
+                        if (op['c'] == true) {
+                          backColor = const Color(0xFFE8F5E9);
+                          borderColor = const Color(0xFF4CAF50);
+                          fontColor = const Color(0xFF1B5E20);
+                        } else if (_opcaoSelecionada == i) {
+                          backColor = const Color(0xFFFFEBEE);
+                          borderColor = const Color(0xFFF44336);
+                          fontColor = const Color(0xFFB71C1C);
+                        }
+                      }
+
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: GestureDetector(
+                          onTap: () => _validarAlternativa(i, op['c'] as bool),
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: backColor,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border(
+                                top: BorderSide(color: borderColor, width: 2),
+                                left: BorderSide(color: borderColor, width: 2),
+                                right: BorderSide(color: borderColor, width: 2),
+                                bottom: BorderSide(color: borderColor, width: 5.0),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                CircleAvatar(radius: 12, backgroundColor: const Color(0xFFF1F5F9), child: Text('${i+1}', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold))),
+                                const SizedBox(width: 16),
+                                Expanded(child: Text(op['t'] as String, style: TextStyle(color: fontColor, fontWeight: FontWeight.w800, fontSize: 14))),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+// --- 7. HUB DE VÍDEO AULAS INTERATIVAS (RESTADO DO ZERO!) ---
 class VideoAulasScreen extends StatelessWidget {
   const VideoAulasScreen({super.key});
 
@@ -602,7 +870,7 @@ class VideoAulasScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iniciante = [
-      {'titulo': 'Módulo Core: Configurações de Mão Unilaterais', 'duracao': '10 min'},
+      {'titulo': 'Módulo Core: Alfabeto e Primeiros Passos', 'duracao': '10 min'},
       {'titulo': 'Gramática I: Estrutura do Espaço Neutro', 'duracao': '08 min'},
     ];
     final intermediario = [
@@ -622,8 +890,7 @@ class VideoAulasScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           foregroundColor: const Color(0xFF0F172A),
           elevation: 0,
-          title: const Text('Streaming Hub de Aulas', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          shape: const Border(bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1)),
+          title: const Text('Streaming Hub de Aulas', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
           bottom: const TabBar(
             labelColor: Color(0xFF0F172A),
             unselectedLabelColor: Color(0xFF94A3B8),
@@ -679,479 +946,40 @@ class VideoAulasScreen extends StatelessWidget {
   }
 }
 
-// --- 5. TELA DE FAVORITOS ---
-class FavoritosScreen extends StatefulWidget {
+// --- 8. DEMAIS TELAS DO ECOSSISTEMA ---
+class FavoritosScreen extends StatelessWidget {
   const FavoritosScreen({super.key});
   @override
-  State<FavoritosScreen> createState() => _FavoritosScreenState();
-}
-
-class _FavoritosScreenState extends State<FavoritosScreen> {
-  @override
   Widget build(BuildContext context) {
-    var favs = FavoritosManager.listaFavoritos;
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: const Color(0xFF0F172A),
-        elevation: 0,
-        title: const Text('Workspace de Favoritos', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-        shape: const Border(bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1)),
-      ),
-      body: favs.isEmpty
-          ? const Center(child: Text('Nenhum log favoritado.', style: TextStyle(fontSize: 13, color: Color(0xFF94A3B8))))
-          : ListView.builder(
-              padding: const EdgeInsets.all(20),
-              itemCount: favs.length,
-              itemBuilder: (context, i) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: const Color(0xFFE2E8F0)),
-                  ),
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                    leading: const Icon(Icons.bookmark_rounded, color: Color(0xFF0F172A)),
-                    title: Text(favs[i]['nome']!, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF0F172A))),
-                    subtitle: Text(favs[i]['desc'] ?? '', style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.close_rounded, color: Color(0xFF94A3B8), size: 18),
-                      onPressed: () {
-                        setState(() {
-                          favs.removeAt(i);
-                        });
-                      },
-                    ),
-                  ),
-                );
-              },
+      appBar: AppBar(backgroundColor: Colors.white, foregroundColor: const Color(0xFF0F172A), elevation: 0, title: const Text('Workspace de Favoritos')),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(20),
+        itemCount: AppState.listaFavoritos.length,
+        itemBuilder: (context, i) {
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 6),
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), border: Border.all(color: const Color(0xFFE2E8F0))),
+            child: ListTile(
+              title: Text(AppState.listaFavoritos[i]['nome']!, style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text(AppState.listaFavoritos[i]['desc']!),
             ),
+          );
+        },
+      ),
     );
   }
 }
 
-// --- 6. TRADUTOR CÂMERA ---
-class TradutorScreen extends StatefulWidget {
+class TradutorScreen extends StatelessWidget {
   const TradutorScreen({super.key});
   @override
-  State<TradutorScreen> createState() => _TradutorScreenState();
-}
-
-class _TradutorScreenState extends State<TradutorScreen> {
-  String _res = "Aguardando captura de movimento...";
-  bool _loading = false;
-
-  void _traduzir() {
-    setState(() { _loading = true; });
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _loading = false;
-        _res = "Análise Concluída: 'BANANA' 🍌";
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(backgroundColor: Colors.white, foregroundColor: const Color(0xFF0F172A), title: const Text('Computer Vision Live', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)), elevation: 0, shape: const Border(bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1))),
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.all(24),
-              decoration: BoxDecoration(color: const Color(0xFF0F172A), borderRadius: BorderRadius.circular(32)),
-              child: Center(
-                child: _loading 
-                  ? const CircularProgressIndicator(color: Color(0xFF38BDF8))
-                  : const Icon(Icons.videocam_rounded, size: 48, color: Colors.white24),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
-            child: Column(
-              children: [
-                Text(_res, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF0F172A))),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: 54,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF0F172A), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
-                    onPressed: _traduzir,
-                    child: const Text('PROCESSAR GESTO', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-// --- 7. CHAT CORE IA ---
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
-  @override
-  State<ChatScreen> createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
-  final List<Map<String, String>> _messages = [
-    {"sender": "ia", "text": "Olá Raquel. Pronta para calibrar seus exercícios de articulação manual?"}
-  ];
-  final _controller = TextEditingController();
-
-  void _sendMessage() {
-    if (_controller.text.isEmpty) return;
-    setState(() {
-      _messages.add({"sender": "user", "text": _controller.text});
-    });
-    _controller.clear();
-
-    Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        _messages.add({"sender": "ia", "text": "Entendido. Para esse sinal, certifique-se de manter o pulso no ângulo neutro de 90°."});
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(backgroundColor: Colors.white, foregroundColor: const Color(0xFF0F172A), title: const Text('Assistente Neural Core', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)), elevation: 0, shape: const Border(bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1))),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(24),
-              itemCount: _messages.length,
-              itemBuilder: (context, i) {
-                final isUser = _messages[i]["sender"] == "user";
-                return Align(
-                  alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 4),
-                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: isUser ? const Color(0xFF0F172A) : Colors.white,
-                      borderRadius: BorderRadius.circular(18),
-                      border: isUser ? null : Border.all(color: const Color(0xFFE2E8F0)),
-                    ),
-                    child: Text(_messages[i]["text"]!, style: TextStyle(color: isUser ? Colors.white : const Color(0xFF334155), fontSize: 14, fontWeight: FontWeight.w500)),
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: 'Pergunte sobre parâmetros...',
-                      filled: true,
-                      fillColor: Colors.white,
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF0F172A))),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                IconButton(icon: const Icon(Icons.send_rounded, color: Color(0xFF0F172A)), onPressed: _sendMessage),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-// --- 8. VALIDADOR DE QUIZ (EXPANDIDO COM MAIS PERGUNTAS - DUOLINGO PREMIUM STYLE) ---
-class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
-  @override
-  State<QuizScreen> createState() => _QuizScreenState();
-}
-
-class _QuizScreenState extends State<QuizScreen> {
-  int _index = 0;
-  int _pontos = 0;
-  bool _fim = false;
-  int _opcaoSelecionada = -1;
-  bool _mostrouFeedback = false;
-
-  // BANCO DE DADOS DE QUIZ EXPANDIDO PARA 4 ETAPAS COMPLETAS
-  final _perguntas = [
-    {
-      'q': 'Qual a movimentação padrão no sinal de BANANA 🍌?',
-      'imgLabel': 'DIRECIONAL DESCENDENTE UNILATERAL',
-      'icon': Icons.layers_rounded,
-      'a': [
-        {'t': 'Simulação de extração de camadas verticais', 'c': true},
-        {'t': 'Giro orbital contínuo de pulso', 'c': false},
-      ]
-    },
-    {
-      'q': 'O sinal gramatical de GATO 🐱 exige qual ponto de articulação?',
-      'imgLabel': 'PONTO DE CONTATO ZIGOMÁTICO',
-      'icon': Icons.face_retouching_natural_rounded,
-      'a': [
-        {'t': 'Região frontal do espaço neutro', 'c': false},
-        {'t': 'Puxamento lateral próximo às bochechas', 'c': true},
-      ]
-    },
-    {
-      'q': 'Para estruturar o sinal de CHOCOLATE 🍫, qual formato de mão ativa é adotado?',
-      'imgLabel': 'CONFIGURAÇÃO EM GANCHO UNILATERAL',
-      'icon': Icons.cookie_rounded,
-      'a': [
-        {'t': 'Mão aberta em garra sobre a testa', 'c': false},
-        {'t': 'Dedo indicador dobrado raspando o queixo', 'c': true},
-      ]
-    },
-    {
-      'q': 'O sinal de TARTARUGA 🐢 mescla duas mãos em qual disposição visual?',
-      'imgLabel': 'COMPOSIÇÃO DE CASCO SOBREPOSTO',
-      'icon': Icons.waves_rounded,
-      'a': [
-        {'t': 'Mão passiva aberta servindo de teto/casco', 'c': true},
-        {'t': 'Ambas as mãos soltas simulando voo angular', 'c': false},
-      ]
-    }
-  ];
-
-  void _validarResposta(int idxOpcao, bool correta) {
-    if (_mostrouFeedback) return;
-    setState(() {
-      _opcaoSelecionada = idxOpcao;
-      _mostrouFeedback = true;
-      if (correta) _pontos += 25; // Fracionado por peso equilibrado
-    });
-
-    Future.delayed(const Duration(milliseconds: 1400), () {
-      setState(() {
-        if (_index < _perguntas.length - 1) {
-          _index++;
-          _opcaoSelecionada = -1;
-          _mostrouFeedback = false;
-        } else {
-          _fim = true;
-        }
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double progresso = (_index + 1) / _perguntas.length;
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: const Color(0xFF0F172A),
-        title: const Text('Desafio Prático', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 0.5)),
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.close_rounded, color: Color(0xFF94A3B8)),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-          child: _fim
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(24),
-                        decoration: const BoxDecoration(color: Color(0xFFFEF08A), shape: BoxShape.circle),
-                        child: const Icon(Icons.emoji_events_rounded, size: 80, color: Color(0xFFEAB308)),
-                      ),
-                      const SizedBox(height: 28),
-                      const Text('Módulo Concluído!', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
-                      const SizedBox(height: 8),
-                      Text('Sua métrica de acerto final: $_pontos%', style: const TextStyle(fontSize: 15, color: Color(0xFF64748B), fontWeight: FontWeight.w500)),
-                      const SizedBox(height: 40),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 54,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF58CC02),
-                            elevation: 4,
-                            shadowColor: const Color(0xFF46A302),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                          ),
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text('CONTINUAR', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // BARRA DE PROGRESSO GEOMÉTRICA (ESTILO DUOLINGO)
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 16,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFE2E8F0),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Stack(
-                              children: [
-                                LayoutBuilder(
-                                  builder: (context, constraints) => AnimatedContainer(
-                                    duration: const Duration(milliseconds: 300),
-                                    width: constraints.maxWidth * progresso,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF58CC02),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Text(
-                          '${_index + 1}/${_perguntas.length}',
-                          style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF94A3B8), fontSize: 14),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 36),
-
-                    // CARD DE CONCEITO VETORIAL LÚDICO
-                    Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF0F172A),
-                        borderRadius: BorderRadius.circular(28),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(_perguntas[_index]['icon'] as IconData, size: 36, color: const Color(0xFF38BDF8)),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text('DIRETRIZ DE SINCRONIA', style: TextStyle(color: Color(0xFF38BDF8), fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 1.0)),
-                                const SizedBox(height: 4),
-                                Text(_perguntas[_index]['imgLabel'] as String, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 32),
-
-                    // PERGUNTA CENTRALIZADA
-                    Text(
-                      _perguntas[_index]['q'] as String,
-                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Color(0xFF0F172A), height: 1.3),
-                      textAlign: TextAlign.left,
-                    ),
-                    const SizedBox(height: 32),
-
-                    // LISTA DE ALTERNATIVAS EM BOTÕES 3D
-                    ...List.generate((_perguntas[_index]['a'] as List).length, (i) {
-                      var op = (_perguntas[_index]['a'] as List)[i];
-                      
-                      Color backColor = Colors.white;
-                      Color borderColor = const Color(0xFFE2E8F0);
-                      Color fontColor = const Color(0xFF334155);
-
-                      if (_mostrouFeedback) {
-                        if (op['c'] == true) {
-                          backColor = const Color(0xFFE8F5E9);
-                          borderColor = const Color(0xFF4CAF50);
-                          fontColor = const Color(0xFF1B5E20);
-                        } else if (_opcaoSelecionada == i) {
-                          backColor = const Color(0xFFFFEBEE);
-                          borderColor = const Color(0xFFF44336);
-                          fontColor = const Color(0xFFB71C1C);
-                        }
-                      } else if (_opcaoSelecionada == i) {
-                        borderColor = const Color(0xFF1E88E5);
-                        fontColor = const Color(0xFF1E88E5);
-                      }
-
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: GestureDetector(
-                          onTap: () => _validarResposta(i, op['c'] as bool),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 150),
-                            padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
-                            decoration: BoxDecoration(
-                              color: backColor,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border(
-                                top: BorderSide(color: borderColor, width: 2),
-                                left: BorderSide(color: borderColor, width: 2),
-                                right: BorderSide(color: borderColor, width: 2),
-                                bottom: BorderSide(color: borderColor, width: 5.0),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: _mostrouFeedback && op['c'] == true ? const Color(0xFF4CAF50) : const Color(0xFFF1F5F9),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Text(
-                                    '${i + 1}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w900, 
-                                      color: _mostrouFeedback && op['c'] == true ? Colors.white : const Color(0xFF64748B),
-                                      fontSize: 12
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: Text(
-                                    op['t'] as String,
-                                    style: TextStyle(color: fontColor, fontWeight: FontWeight.w800, fontSize: 15),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ],
-                ),
-        ),
-      ),
+      appBar: AppBar(backgroundColor: Colors.white, foregroundColor: const Color(0xFF0F172A), title: const Text('Computer Vision Live')),
+      body: const Center(child: Text('Aguardando ativação do hardware óptico...', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF94A3B8)))),
     );
   }
 }
