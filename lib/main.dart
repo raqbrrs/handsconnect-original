@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFF8FAFC),
-        primaryColor: const Color(0xFF0F172A),
+        primaryColor: const Color(0xFF0F172A), 
         fontFamily: 'Roboto',
       ),
       home: const LoginScreen(),
@@ -28,12 +28,20 @@ class AppState {
   static int ofensiva = 5;
   static int nivelAtualMaximoDesbloqueado = 1;
   static List<String> medalhas = ['Pioneira 🏅', 'Primeiro Passo 🚀'];
-
+  
   static final List<Map<String, String>> listaFavoritos = [
-    {
-      'nome': 'Sinal de Obrigado 👋',
-      'desc': 'Mão aberta tocando a testa e saindo para a frente.'
-    }
+    {'nome': 'Sinal de Obrigado 👋', 'desc': 'Mão aberta tocando a testa e saindo para a frente.'}
+  ];
+
+  static final List<Map<String, String>> exerciciosMorfologia = [
+    {'nome': 'Alfabeto Manual: Letra A 👍', 'desc': 'Feche a mão ativa deixando o polegar posicionado de forma lateral e esticado ao lado do indicador.', 'metrica': 'Alvo: Configuração de Mão Estática', 'tipo': 'Nível 1: Iniciante'},
+    {'nome': 'Cumprimentos: Sinal de Oi 👋', 'desc': 'Faça a letra O e em seguida levante o dedo mínimo formando a letra I, movendo levemente para o lado.', 'metrica': 'Alvo: Transição Fluida Orbital', 'tipo': 'Nível 1: Iniciante'},
+    {'nome': 'Sinal de Gato 🐱', 'desc': 'Puxe os dedos indicador e polegar em formato de pinça partindo das bochechas simulando os bigodes.', 'metrica': 'Alvo: Ponto de Articulação Facial', 'tipo': 'Nível 2: Básico'},
+  ];
+
+  static final List<Map<String, String>> exerciciosLinguistica = [
+    {'nome': 'Sinal de Expressão de Dúvida 🤨', 'desc': 'Sinale "Por que" franzindo levemente as sobrancelhas e inclinando a cabeça levemente para trás.', 'metrica': 'Alvo: Expressão Facial Gramatical', 'tipo': 'Nível 3: Intermediário'},
+    {'nome': 'Sinal de Chocolate 🍫', 'desc': 'Mão em formato de gancho raspando suavemente na base inferior do queixo em movimentos cíclicos.', 'metrica': 'Alvo: Movimento Cíclico de Atrito', 'tipo': 'Nível 2: Básico'},
   ];
 }
 
@@ -52,21 +60,17 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Por favor, preencha as credenciais.'),
-            backgroundColor: Colors.red,
-            duration: Duration(seconds: 2)),
+        const SnackBar(content: Text('Por favor, preencha as credenciais.'), backgroundColor: Colors.red, duration: Duration(seconds: 2)),
       );
     } else {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HomeScreen()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
+      backgroundColor: const Color(0xFF0F172A), 
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -78,29 +82,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Container(
                     height: 90,
-                    decoration: const BoxDecoration(
-                        color: Colors.transparent, shape: BoxShape.circle),
-                    child: const Icon(Icons.blur_on_rounded,
-                        size: 70, color: Color(0xFF38BDF8)),
+                    decoration: const BoxDecoration(color: Colors.transparent, shape: BoxShape.circle),
+                    child: const Icon(Icons.blur_on_rounded, size: 70, color: Color(0xFF38BDF8)),
                   ),
                   const SizedBox(height: 24),
                   const Text(
                     'HANDS CONNECT',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                        letterSpacing: 3.0),
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 3.0),
                   ),
                   const SizedBox(height: 8),
                   const Text(
                     'Sistemas de Aprendizado Neural em Libras',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF94A3B8),
-                        letterSpacing: 0.5),
+                    style: TextStyle(fontSize: 12, color: Color(0xFF94A3B8), letterSpacing: 0.5),
                   ),
                   const SizedBox(height: 48),
                   TextField(
@@ -111,13 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelStyle: const TextStyle(color: Color(0xFF64748B)),
                       filled: true,
                       fillColor: const Color(0xFF1E293B),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide.none),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: const BorderSide(
-                              color: Color(0xFF38BDF8), width: 1.5)),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF38BDF8), width: 1.5)),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -130,13 +120,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelStyle: const TextStyle(color: Color(0xFF64748B)),
                       filled: true,
                       fillColor: const Color(0xFF1E293B),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide.none),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: const BorderSide(
-                              color: Color(0xFF38BDF8), width: 1.5)),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF38BDF8), width: 1.5)),
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -145,17 +130,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF38BDF8),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                         elevation: 0,
                       ),
                       onPressed: _fazerLogin,
-                      child: const Text('INICIAR SESSÃO',
-                          style: TextStyle(
-                              color: Color(0xFF0F172A),
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2)),
+                      child: const Text('INICIAR SESSÃO', style: TextStyle(color: Color(0xFF0F172A), fontSize: 14, fontWeight: FontWeight.bold, letterSpacing: 1.2)),
                     ),
                   ),
                 ],
@@ -187,30 +166,19 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Workspace',
-                style: TextStyle(
-                    color: Color(0xFF64748B),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500)),
+            Text('Workspace', style: TextStyle(color: Color(0xFF64748B), fontSize: 12, fontWeight: FontWeight.w500)),
             SizedBox(height: 2),
-            Text('Olá, Raquel 👋',
-                style: TextStyle(
-                    color: Color(0xFF0F172A),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20)),
+            Text('Olá, Raquel 👋', style: TextStyle(color: Color(0xFF0F172A), fontWeight: FontWeight.bold, fontSize: 20)),
           ],
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.grid_view_rounded,
-                color: Color(0xFF0F172A), size: 22),
-            onPressed: () => Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) => const LoginScreen())),
+            icon: const Icon(Icons.grid_view_rounded, color: Color(0xFF0F172A), size: 22),
+            onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const LoginScreen())),
           ),
         ],
         elevation: 0,
-        shape: const Border(
-            bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1)),
+        shape: const Border(bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1)),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
@@ -221,10 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const TradutorScreen())),
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TradutorScreen())),
                     child: Container(
                       height: 130,
                       decoration: BoxDecoration(
@@ -237,13 +202,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.filter_center_focus_rounded,
-                                color: Color(0xFF38BDF8), size: 28),
-                            Text('Computer Vision\nTradutor Câmera',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14)),
+                            Icon(Icons.filter_center_focus_rounded, color: Color(0xFF38BDF8), size: 28),
+                            Text('Computer Vision\nTradutor Câmera', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
                           ],
                         ),
                       ),
@@ -253,18 +213,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(width: 16),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const AprenderScreen()))
-                        .then((_) => setState(() {})),
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AprenderScreen())).then((_) => setState(() {})),
                     child: Container(
                       height: 130,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(28),
-                        border: Border.all(
-                            color: const Color(0xFFE2E8F0), width: 1.5),
+                        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.5),
                       ),
                       child: const Padding(
                         padding: EdgeInsets.all(20.0),
@@ -272,13 +227,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.model_training_rounded,
-                                color: Color(0xFF0F172A), size: 28),
-                            Text('Laboratório de\nExercícios Práticos',
-                                style: TextStyle(
-                                    color: Color(0xFF0F172A),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14)),
+                            Icon(Icons.model_training_rounded, color: Color(0xFF0F172A), size: 28),
+                            Text('Laboratório de\nExercícios Práticos', style: TextStyle(color: Color(0xFF0F172A), fontWeight: FontWeight.bold, fontSize: 14)),
                           ],
                         ),
                       ),
@@ -288,12 +238,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const SizedBox(height: 28),
-            const Text('Painel de Métricas Analíticas',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF64748B))),
+            const Text('Painel de Métricas Analíticas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
             const SizedBox(height: 12),
+            
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
@@ -312,8 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           value: progressoNivel,
                           strokeWidth: 6,
                           backgroundColor: const Color(0xFFF1F5F9),
-                          valueColor: const AlwaysStoppedAnimation<Color>(
-                              Color(0xFF58CC02)),
+                          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF58CC02)),
                         ),
                       ),
                       const SizedBox(width: 20),
@@ -321,16 +267,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                'Trilha Hands Connect: Nível ${AppState.nivelAtualMaximoDesbloqueado}/5',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900,
-                                    color: Color(0xFF0F172A))),
+                            Text('Trilha Duolingo: Nível ${AppState.nivelAtualMaximoDesbloqueado}/5', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
                             const SizedBox(height: 4),
-                            Text('Medalhas: ${AppState.medalhas.join("  ")}',
-                                style: const TextStyle(
-                                    color: Color(0xFF64748B), fontSize: 12)),
+                            Text('Medalhas: ${AppState.medalhas.join("  ")}', style: const TextStyle(color: Color(0xFF64748B), fontSize: 12)),
                           ],
                         ),
                       )
@@ -344,26 +283,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildStatusColumn('${AppState.xp}', 'XP Total'),
-                      Container(
-                          height: 25, width: 1, color: const Color(0xFFE2E8F0)),
-                      _buildStatusColumn(
-                          '${AppState.ofensiva} dias', 'Ofensiva 🔥'),
-                      Container(
-                          height: 25, width: 1, color: const Color(0xFFE2E8F0)),
-                      _buildStatusColumn(
-                          '${AppState.nivelAtualMaximoDesbloqueado * 4}',
-                          'Fases Finais'),
+                      Container(height: 25, width: 1, color: const Color(0xFFE2E8F0)),
+                      _buildStatusColumn('${AppState.ofensiva} dias', 'Ofensiva 🔥'),
+                      Container(height: 25, width: 1, color: const Color(0xFFE2E8F0)),
+                      _buildStatusColumn('${AppState.nivelAtualMaximoDesbloqueado * 4}', 'Fases Finais'),
                     ],
                   )
                 ],
               ),
             ),
             const SizedBox(height: 28),
-            const Text('Navegação de Subsistemas',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF64748B))),
+            const Text('Navegação de Subsistemas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
             const SizedBox(height: 16),
             GridView.count(
               crossAxisCount: 2,
@@ -373,14 +303,10 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisSpacing: 16,
               childAspectRatio: 1.3,
               children: [
-                _buildGridItem(context, Icons.analytics_rounded,
-                    'Desafio Quiz Trilha', const QuizFasesScreen(), true),
-                _buildGridItem(context, Icons.terminal_rounded,
-                    'Professor Virtual IA', const ChatScreen(), false),
-                _buildGridItem(context, Icons.video_library_rounded,
-                    'Aulas Gravadas', const VideoAulasScreen(), false),
-                _buildGridItem(context, Icons.favorite_border_rounded,
-                    'Meus Favoritos', const FavoritosScreen(), false),
+                _buildGridItem(context, Icons.analytics_rounded, 'Desafio Quiz Trilha', const QuizFasesScreen(), true),
+                _buildGridItem(context, Icons.terminal_rounded, 'Professor Virtual IA', const ChatScreen(), false),
+                _buildGridItem(context, Icons.video_library_rounded, 'Aulas Gravadas', const VideoAulasScreen(), false),
+                _buildGridItem(context, Icons.favorite_border_rounded, 'Meus Favoritos', const FavoritosScreen(), false),
               ],
             ),
           ],
@@ -392,54 +318,32 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildStatusColumn(String numero, String legenda) {
     return Column(
       children: [
-        Text(numero,
-            style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w900,
-                color: Color(0xFF0F172A))),
+        Text(numero, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
         const SizedBox(height: 2),
-        Text(legenda,
-            style: const TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF94A3B8))),
+        Text(legenda, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF94A3B8))),
       ],
     );
   }
 
-  Widget _buildGridItem(BuildContext context, IconData icon, String label,
-      Widget target, bool destacar) {
+  Widget _buildGridItem(BuildContext context, IconData icon, String label, Widget target, bool destacar) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => target))
-            .then((value) => setState(() {}));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => target)).then((value) => setState(() {}));
       },
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: destacar ? const Color(0xFFDCFCE7) : Colors.white,
           borderRadius: BorderRadius.circular(28),
-          border: Border.all(
-              color:
-                  destacar ? const Color(0xFF4CAF50) : const Color(0xFFE2E8F0)),
+          border: Border.all(color: destacar ? const Color(0xFF4CAF50) : const Color(0xFFE2E8F0)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon,
-                color: destacar
-                    ? const Color(0xFF166534)
-                    : const Color(0xFF0F172A),
-                size: 26),
+            Icon(icon, color: destacar ? const Color(0xFF166534) : const Color(0xFF0F172A), size: 26),
             const SizedBox(height: 14),
-            Text(label,
-                style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    color: destacar
-                        ? const Color(0xFF166534)
-                        : const Color(0xFF334155),
-                    fontSize: 13)),
+            Text(label, style: TextStyle(fontWeight: FontWeight.w900, color: destacar ? const Color(0xFF166534) : const Color(0xFF334155), fontSize: 13)),
           ],
         ),
       ),
@@ -455,84 +359,109 @@ class AprenderScreen extends StatefulWidget {
 }
 
 class _AprenderScreenState extends State<AprenderScreen> {
-  final List<Map<String, String>> exerciciosMorfologia = [
-    {
-      'nome': 'Alfabeto Manual: Letra A 👍',
-      'desc':
-          'Feche a mão ativa deixando o polegar posicionado de forma lateral e esticado ao lado do indicador.',
-      'metrica': 'Alvo: Configuração de Mão Estática',
-      'tipo': 'Nível 1: Iniciante'
-    },
-    {
-      'nome': 'Cumprimentos: Sinal de Oi 👋',
-      'desc':
-          'Faça a letra O e em seguida levante o dedo mínimo formando a letra I, movendo levemente para o lado.',
-      'metrica': 'Alvo: Transição Fluida Orbital',
-      'tipo': 'Nível 1: Iniciante'
-    },
-    {
-      'nome': 'Sinal de Gato 🐱',
-      'desc':
-          'Puxe os dedos indicador e polegar em formato de pinça partindo das bochechas simulando os bigodes.',
-      'metrica': 'Alvo: Ponto de Articulação Facial',
-      'tipo': 'Nível 2: Básico'
-    },
-  ];
-
-  final List<Map<String, String>> exerciciosLinguistica = [
-    {
-      'nome': 'Sinal de Expressão de Dúvida 🤨',
-      'desc':
-          'Sinale "Por que" franzindo levemente as sobrancelhas e inclinando a cabeça levemente para trás.',
-      'metrica': 'Alvo: Expressão Facial Gramatical',
-      'tipo': 'Nível 3: Intermediário'
-    },
-    {
-      'nome': 'Sinal de Chocolate 🍫',
-      'desc':
-          'Mão em formato de gancho raspando suavemente na base inferior do queixo em movimentos cíclicos.',
-      'metrica': 'Alvo: Movimento Cíclico de Atrito',
-      'tipo': 'Nível 2: Básico'
-    },
-  ];
-
   void _alternarFavorito(Map<String, String> item) {
     setState(() {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
-      bool existe = AppState.listaFavoritos
-          .any((element) => element['nome'] == item['nome']);
+      bool existe = AppState.listaFavoritos.any((element) => element['nome'] == item['nome']);
       if (existe) {
-        AppState.listaFavoritos
-            .removeWhere((element) => element['nome'] == item['nome']);
+        AppState.listaFavoritos.removeWhere((element) => element['nome'] == item['nome']);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Removido dos Favoritos: ${item['nome']}'),
+            content: Text('Removido dos Favoritos: ${item['nome']}'), 
             backgroundColor: Colors.black87,
             duration: const Duration(seconds: 2),
           ),
         );
       } else {
-        AppState.listaFavoritos
-            .add({'nome': item['nome']!, 'desc': item['desc']!});
+        AppState.listaFavoritos.add({'nome': item['nome']!, 'desc': item['desc']!});
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Adicionado aos Favoritos! ⭐'),
             backgroundColor: const Color(0xFF0F172A),
-            duration: const Duration(seconds: 2),
+            duration: const Duration(seconds: 2), 
             action: SnackBarAction(
               label: 'VER',
               textColor: const Color(0xFF38BDF8),
               onPressed: () {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const FavoritosScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const FavoritosScreen()));
               },
             ),
           ),
         );
       }
     });
+  }
+
+  void _abrirFormularioSinal({Map<String, String>? sinalExistente, int? index, List<Map<String, String>>? listaOrigem}) {
+    final nomeController = TextEditingController(text: sinalExistente != null ? sinalExistente['nome'] : '');
+    final descController = TextEditingController(text: sinalExistente != null ? sinalExistente['desc'] : '');
+    final tipoController = TextEditingController(text: sinalExistente != null ? sinalExistente['tipo'] : 'Nível 1: Iniciante');
+    final metricaController = TextEditingController(text: sinalExistente != null ? sinalExistente['metrica'] : 'Alvo: Customizado');
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          title: Text(sinalExistente == null ? 'Adicionar Novo Sinal' : 'Editar Sinal', style: const TextStyle(fontWeight: FontWeight.bold)),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nomeController,
+                  decoration: const InputDecoration(labelText: 'Nome do Sinal (Ex: Sinal de Casa 🏠)'),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: descController,
+                  maxLines: 2,
+                  decoration: const InputDecoration(labelText: 'Descrição do Gesto / Passo a Passo'),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: tipoController,
+                  decoration: const InputDecoration(labelText: 'Categoria / Tipo'),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: metricaController,
+                  decoration: const InputDecoration(labelText: 'Métrica/Foco do Gesto'),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancelar', style: TextStyle(color: Colors.grey))),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF0F172A), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+              onPressed: () {
+                if (nomeController.text.isEmpty || descController.text.isEmpty) return;
+
+                setState(() {
+                  Map<String, String> novoSinal = {
+                    'nome': nomeController.text,
+                    'desc': descController.text,
+                    'tipo': tipoController.text,
+                    'metrica': metricaController.text,
+                  };
+
+                  if (sinalExistente == null) {
+                    AppState.exerciciosMorfologia.add(novoSinal);
+                  } else {
+                    listaOrigem![index!] = novoSinal;
+                  }
+                });
+                Navigator.pop(context);
+              },
+              child: const Text('Salvar', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -545,18 +474,13 @@ class _AprenderScreenState extends State<AprenderScreen> {
           backgroundColor: Colors.white,
           foregroundColor: const Color(0xFF0F172A),
           elevation: 0,
-          title: const Text('Laboratório Prático de Libras',
-              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+          title: const Text('Laboratório Prático de Libras', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
           actions: [
             IconButton(
               icon: const Icon(Icons.star_rounded, color: Colors.amber),
               onPressed: () {
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const FavoritosScreen()))
-                    .then((_) => setState(() {}));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const FavoritosScreen())).then((_) => setState(() {}));
               },
             )
           ],
@@ -569,9 +493,16 @@ class _AprenderScreenState extends State<AprenderScreen> {
         ),
         body: TabBarView(
           children: [
-            _buildListaLabs(exerciciosMorfologia),
-            _buildListaLabs(exerciciosLinguistica),
+            _buildListaLabs(AppState.exerciciosMorfologia),
+            _buildListaLabs(AppState.exerciciosLinguistica),
           ],
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: const Color(0xFF0F172A),
+          foregroundColor: Colors.white,
+          icon: const Icon(Icons.add_rounded),
+          label: const Text('Novo Sinal', style: TextStyle(fontWeight: FontWeight.bold)),
+          onPressed: () => _abrirFormularioSinal(),
         ),
       ),
     );
@@ -579,60 +510,56 @@ class _AprenderScreenState extends State<AprenderScreen> {
 
   Widget _buildListaLabs(List<Map<String, String>> itens) {
     return ListView.builder(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 80),
       itemCount: itens.length,
       itemBuilder: (context, i) {
-        bool isFavoritado = AppState.listaFavoritos
-            .any((element) => element['nome'] == itens[i]['nome']);
+        bool isFavoritado = AppState.listaFavoritos.any((element) => element['nome'] == itens[i]['nome']);
 
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 8),
           padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: const Color(0xFFE2E8F0))),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), border: Border.all(color: const Color(0xFFE2E8F0))),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(itens[i]['tipo']!,
-                      style: const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF38BDF8))),
-                  IconButton(
-                    icon: Icon(
-                        isFavoritado
-                            ? Icons.star_rounded
-                            : Icons.star_border_rounded,
-                        color: isFavoritado
-                            ? Colors.amber
-                            : const Color(0xFF94A3B8)),
-                    constraints: const BoxConstraints(),
-                    padding: EdgeInsets.zero,
-                    onPressed: () => _alternarFavorito(itens[i]),
+                  Text(itens[i]['tipo']!, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF38BDF8))),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit_note_rounded, color: Color(0xFF64748B), size: 22),
+                        constraints: const BoxConstraints(),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        onPressed: () => _abrirFormularioSinal(sinalExistente: itens[i], index: i, listaOrigem: itens),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent, size: 20),
+                        constraints: const BoxConstraints(),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        onPressed: () {
+                          setState(() {
+                            itens.removeAt(i);
+                          });
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(isFavoritado ? Icons.star_rounded : Icons.star_border_rounded, color: isFavoritado ? Colors.amber : const Color(0xFF94A3B8)),
+                        constraints: const BoxConstraints(),
+                        padding: EdgeInsets.zero,
+                        onPressed: () => _alternarFavorito(itens[i]),
+                      ),
+                    ],
                   ),
                 ],
               ),
               const SizedBox(height: 6),
-              Text(itens[i]['nome']!,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      color: Color(0xFF0F172A))),
+              Text(itens[i]['nome']!, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: Color(0xFF0F172A))),
               const SizedBox(height: 8),
-              Text(itens[i]['desc']!,
-                  style: const TextStyle(
-                      color: Color(0xFF64748B), fontSize: 13, height: 1.4)),
+              Text(itens[i]['desc']!, style: const TextStyle(color: Color(0xFF64748B), fontSize: 13, height: 1.4)),
               const Divider(height: 20, color: Color(0xFFF1F5F9)),
-              Text(itens[i]['metrica']!,
-                  style: const TextStyle(
-                      color: Color(0xFF94A3B8),
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold)),
+              Text(itens[i]['metrica']!, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 11, fontWeight: FontWeight.bold)),
             ],
           ),
         );
@@ -650,34 +577,24 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final List<Map<String, String>> _messages = [
-    {
-      "sender": "ia",
-      "text":
-          "Olá Raquel! Sou o seu Professor Virtual 24h. Posso te ensinar sinais passo a passo, explicar expressões faciais, corrigir erros ou criar exercícios personalizados. O que quer treinar agora?"
-    }
+    {"sender": "ia", "text": "Olá Raquel! Sou o seu Professor Virtual 24h. Posso te ensinar sinais passo a passo, explicar expressões faciais, corrigir erros ou criar exercícios personalizados. O que quer treinar agora?"}
   ];
   final _controller = TextEditingController();
 
   void _processarRespostaIA(String textoUsuario) {
-    String resposta =
-        "Interessante! Para executar esse parâmetro em Libras, lembre-se de sincronizar a configuração da mão com a expressão facial correta. Quer que eu detalhe o passo a passo?";
+    String resposta = "Interessante! Para executar esse parâmetro em Libras, lembre-se de sincronizar a configuração da mão com a expressão facial correta. Quer que eu detalhe o passo a passo?";
     String txtLower = textoUsuario.toLowerCase();
 
     if (txtLower.contains("oi") || txtLower.contains("olá")) {
-      resposta =
-          "Olá! Vamos treinar hoje? Posso te passar o passo a passo do alfabeto manual ou criar um exercício adaptado para você.";
+      resposta = "Olá! Vamos treinar hoje? Posso te passar o passo a passo do alfabeto manual ou criar um exercício adaptado para você.";
     } else if (txtLower.contains("gato") || txtLower.contains("sinal")) {
-      resposta =
-          "Explicando o sinal de GATO 🐱 passo a passo:\n1. Configure a mão em pinça (dedos polegar e indicador).\n2. Encoste na bochecha (ponto de articulação).\n3. Puxe para fora simulando os bigodes. Tente fazer aí na câmera!";
+      resposta = "Explicando o sinal de GATO 🐱 passo a passo:\n1. Configure a mão em pinça (dedos polegar e indicador).\n2. Encoste na bochecha (ponto de articulação).\n3. Puxe para fora simulando os bigodes. Tente fazer aí na câmera!";
     } else if (txtLower.contains("expressão") || txtLower.contains("facial")) {
-      resposta =
-          "Excelente ponto! Em Libras, as expressões faciais e corporais determinam a entonação da frase (se é pergunta, exclamação ou sentimento). Por exemplo, para indicar dúvida, franza as sobrancelhas levemente.";
+      resposta = "Excelente ponto! Em Libras, as expressões faciais e corporais determinam a entonação da frase (se é pergunta, exclamação ou sentimento). Por exemplo, para indicar dúvida, franza as sobrancelhas levemente.";
     } else if (txtLower.contains("exercício") || txtLower.contains("treino")) {
-      resposta =
-          "Criando Exercício Personalizado de Nível Iniciante adaptado para você:\n👉 Execute a datilologia da palavra 'AMOR' letra por letra. Precisa de ajuda com alguma letra?";
+      resposta = "Criando Exercício Personalizado de Nível Iniciante adaptado para você:\n👉 Execute a datilologia da palavra 'AMOR' letra por letra. Precisa de ajuda com alguma letra?";
     } else if (txtLower.contains("erro") || txtLower.contains("corrigir")) {
-      resposta =
-          "A IA detectou uma leve inclinação errada no seu pulso durante o último treino com câmera. Lembre-se de manter o eixo neutro inalterado.";
+      resposta = "A IA detectou uma leve inclinação errada no seu pulso durante o último treino com câmera. Lembre-se de manter o eixo neutro inalterado.";
     }
 
     setState(() {
@@ -702,12 +619,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(
-          backgroundColor: Colors.white,
-          foregroundColor: const Color(0xFF0F172A),
-          title: const Text('Professor Virtual Libras IA',
-              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15)),
-          elevation: 0),
+      appBar: AppBar(backgroundColor: Colors.white, foregroundColor: const Color(0xFF0F172A), title: const Text('Professor Virtual Libras IA', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15)), elevation: 0),
       body: Column(
         children: [
           Expanded(
@@ -717,26 +629,16 @@ class _ChatScreenState extends State<ChatScreen> {
               itemBuilder: (context, i) {
                 final isUser = _messages[i]["sender"] == "user";
                 return Align(
-                  alignment:
-                      isUser ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 6),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 18, vertical: 14),
+                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
                     decoration: BoxDecoration(
                       color: isUser ? const Color(0xFF0F172A) : Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      border: isUser
-                          ? null
-                          : Border.all(color: const Color(0xFFE2E8F0)),
+                      border: isUser ? null : Border.all(color: const Color(0xFFE2E8F0)),
                     ),
-                    child: Text(_messages[i]["text"]!,
-                        style: TextStyle(
-                            color:
-                                isUser ? Colors.white : const Color(0xFF334155),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            height: 1.3)),
+                    child: Text(_messages[i]["text"]!, style: TextStyle(color: isUser ? Colors.white : const Color(0xFF334155), fontSize: 14, fontWeight: FontWeight.w500, height: 1.3)),
                   ),
                 );
               },
@@ -753,22 +655,13 @@ class _ChatScreenState extends State<ChatScreen> {
                       hintText: 'Tire dúvidas, peça um sinal ou exercício...',
                       filled: true,
                       fillColor: Colors.white,
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide:
-                              const BorderSide(color: Color(0xFFE2E8F0))),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide:
-                              const BorderSide(color: Color(0xFF0F172A))),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
+                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFF0F172A))),
                     ),
                   ),
                 ),
                 const SizedBox(width: 10),
-                IconButton(
-                    icon: const Icon(Icons.send_rounded,
-                        color: Color(0xFF0F172A)),
-                    onPressed: _sendMessage),
+                IconButton(icon: const Icon(Icons.send_rounded, color: Color(0xFF0F172A)), onPressed: _sendMessage),
               ],
             ),
           )
@@ -787,48 +680,18 @@ class QuizFasesScreen extends StatefulWidget {
 
 class _QuizFasesScreenState extends State<QuizFasesScreen> {
   final List<Map<String, dynamic>> niveisConfig = [
-    {
-      'id': 1,
-      'titulo': 'Nível 1: Iniciante',
-      'sub': 'Alfabeto, Números e Cumprimentos',
-      'icon': Icons.abc_rounded
-    },
-    {
-      'id': 2,
-      'titulo': 'Nível 2: Básico',
-      'sub': 'Família, Cores e Rotinas cotidianas',
-      'icon': Icons.home_rounded
-    },
-    {
-      'id': 3,
-      'titulo': 'Nível 3: Intermediário',
-      'sub': 'Construção de Frases e Verbos',
-      'icon': Icons.forum_rounded
-    },
-    {
-      'id': 4,
-      'titulo': 'Nível 4: Avançado',
-      'sub': 'Narrativas Longas e Contexto Profissional',
-      'icon': Icons.work_rounded
-    },
-    {
-      'id': 5,
-      'titulo': 'Nível 5: Fluência',
-      'sub': 'Conversação em Velocidade Real e Complexa',
-      'icon': Icons.bolt_rounded
-    },
+    {'id': 1, 'titulo': 'Nível 1: Iniciante', 'sub': 'Alfabeto, Números e Cumprimentos', 'icon': Icons.abc_rounded},
+    {'id': 2, 'titulo': 'Nível 2: Básico', 'sub': 'Família, Cores e Rotinas cotidianas', 'icon': Icons.home_rounded},
+    {'id': 3, 'titulo': 'Nível 3: Intermediário', 'sub': 'Construção de Frases e Verbos', 'icon': Icons.forum_rounded},
+    {'id': 4, 'titulo': 'Nível 4: Avançado', 'sub': 'Narrativas Longas e Contexto Profissional', 'icon': Icons.work_rounded},
+    {'id': 5, 'titulo': 'Nível 5: Fluência', 'sub': 'Conversação em Velocidade Real e Complexa', 'icon': Icons.bolt_rounded},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-          backgroundColor: Colors.white,
-          foregroundColor: const Color(0xFF0F172A),
-          elevation: 0,
-          title: const Text('Trilha de Níveis Duolingo',
-              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16))),
+      appBar: AppBar(backgroundColor: Colors.white, foregroundColor: const Color(0xFF0F172A), elevation: 0, title: const Text('Trilha de Níveis Duolingo', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16))),
       body: ListView.builder(
         padding: const EdgeInsets.all(24),
         itemCount: niveisConfig.length,
@@ -841,60 +704,29 @@ class _QuizFasesScreenState extends State<QuizFasesScreen> {
             decoration: BoxDecoration(
               color: bloqueado ? const Color(0xFFF1F5F9) : Colors.white,
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                  color: bloqueado
-                      ? const Color(0xFFE2E8F0)
-                      : const Color(0xFF58CC02),
-                  width: 2),
+              border: Border.all(color: bloqueado ? const Color(0xFFE2E8F0) : const Color(0xFF58CC02), width: 2),
             ),
             child: ListTile(
               contentPadding: const EdgeInsets.all(20),
               leading: Container(
                 padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                    color: bloqueado
-                        ? const Color(0xFFCBD5E1)
-                        : const Color(0xFF58CC02),
-                    shape: BoxShape.circle),
-                child: Icon(
-                    bloqueado ? Icons.lock_rounded : nv['icon'] as IconData,
-                    color: Colors.white,
-                    size: 24),
+                decoration: BoxDecoration(color: bloqueado ? const Color(0xFFCBD5E1) : const Color(0xFF58CC02), shape: BoxShape.circle),
+                child: Icon(bloqueado ? Icons.lock_rounded : nv['icon'] as IconData, color: Colors.white, size: 24),
               ),
-              title: Text(nv['titulo'] as String,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                      color: bloqueado
-                          ? const Color(0xFF94A3B8)
-                          : const Color(0xFF0F172A))),
-              subtitle: Text(nv['sub'] as String,
-                  style: const TextStyle(
-                      fontSize: 12, color: Color(0xFF64748B), height: 1.3)),
-              trailing: bloqueado
-                  ? null
-                  : const Icon(Icons.arrow_forward_ios_rounded,
-                      color: Color(0xFF58CC02), size: 18),
-              onTap: bloqueado
-                  ? () {
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text(
-                              '🔒 Complete o nível anterior para desbloquear esta fase!'),
-                          backgroundColor: Colors.black87,
-                          duration: Duration(seconds: 2)));
-                    }
-                  : () {
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => QuizJogoEngine(
-                                      nivelSelecionado: nv['id'] as int)))
-                          .then((value) {
-                        setState(() {});
-                      });
-                    },
+              title: Text(nv['titulo'] as String, style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: bloqueado ? const Color(0xFF94A3B8) : const Color(0xFF0F172A))),
+              subtitle: Text(nv['sub'] as String, style: const TextStyle(fontSize: 12, color: Color(0xFF64748B), height: 1.3)),
+              trailing: bloqueado 
+                ? null 
+                : const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF58CC02), size: 18),
+              onTap: bloqueado ? () {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('🔒 Complete o nível anterior para desbloquear esta fase!'), backgroundColor: Colors.black87, duration: Duration(seconds: 2)));
+              } : () {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                Navigator.push(context, MaterialPageRoute(builder: (_) => QuizJogoEngine(nivelSelecionado: nv['id'] as int))).then((value) {
+                  setState(() {});
+                });
+              },
             ),
           );
         },
@@ -921,68 +753,41 @@ class _QuizJogoEngineState extends State<QuizJogoEngine> {
     1: [
       {
         'tipo': 'IDENTIFICAÇÃO DE SINAL',
-        'q':
-            'Qual o significado do sinal executado com a configuração em formato da letra L batendo levemente no queixo?',
-        'a': [
-          {'t': 'Sinal de CUMPRIMENTO: Boa Tarde', 'c': false},
-          {'t': 'Sinal de NÚMERO: Quantidade de anos/idade', 'c': true}
-        ]
+        'q': 'Qual o significado do sinal executado com a configuração em formato da letra L batendo levemente no queixo?',
+        'a': [{'t': 'Sinal de CUMPRIMENTO: Boa Tarde', 'c': false}, {'t': 'Sinal de NÚMERO: Quantidade de anos/idade', 'c': true}]
       },
       {
         'tipo': 'EXERCÍCIO COM CÂMERA EMULADA',
-        'q':
-            'Ative sua câmera e execute o alfabeto manual correspondente à letra inicial do seu nome.',
-        'a': [
-          {'t': 'Posicionar a mão em formato correto de pinça', 'c': true},
-          {'t': 'Manter o braço totalmente fechado no tronco', 'c': false}
-        ]
+        'q': 'Ative sua câmera e execute o alfabeto manual correspondente à letra inicial do seu nome.',
+        'a': [{'t': 'Posicionar a mão em formato correto de pinça', 'c': true}, {'t': 'Manter o braço totalmente fechado no tronco', 'c': false}]
       }
     ],
     2: [
       {
         'tipo': 'COMPLETAR FRASES',
-        'q':
-            'Complete o contexto da frase: "MINHA MÃE TRABALHAR LOJA ____" (Sinal de cor de uniforme)',
-        'a': [
-          {
-            't': 'Sinal da cor AZUL (Mão em formato de A girando para Z)',
-            'c': true
-          },
-          {'t': 'Sinal da cor VERDE (Mão raspando o dorso)', 'c': false}
-        ]
+        'q': 'Complete o contexto da frase: "MINHA MÃE TRABALHAR LOJA ____" (Sinal de cor de uniforme)',
+        'a': [{'t': 'Sinal da cor AZUL (Mão em formato de A girando para Z)', 'c': true}, {'t': 'Sinal da cor VERDE (Mão raspando o dorso)', 'c': false}]
       }
     ],
     3: [
       {
         'tipo': 'INTERPRETAÇÃO DE VÍDEOS',
-        'q':
-            'Análise da estrutura sintática: O verbo ir foi conjugado no espaço neutro lateral direcionado.',
-        'a': [
-          {'t': 'Sim, indica ponto de destino contextual', 'c': true},
-          {'t': 'Não, indica apenas erro posicional', 'c': false}
-        ]
+        'q': 'Análise da estrutura sintática: O verbo ir foi conjugado no espaço neutro lateral direcionado.',
+        'a': [{'t': 'Sim, indica ponto de destino contextual', 'c': true}, {'t': 'Não, indica apenas erro posicional', 'c': false}]
       }
     ],
     4: [
       {
         'tipo': 'NARRATIVAS E CONTEXTO',
-        'q':
-            'Em uma interpretação jurídica profissional, o sinal de LEI deve obrigatoriamente tocar qual superfície?',
-        'a': [
-          {'t': 'A palma da mão passiva aberta verticalmente', 'c': true},
-          {'t': 'O espaço neutro frontal inferior', 'c': false}
-        ]
+        'q': 'Em uma interpretação jurídica profissional, o sinal de LEI deve obrigatoriamente tocar qual superfície?',
+        'a': [{'t': 'A palma da mão passiva aberta verticalmente', 'c': true}, {'t': 'O espaço neutro frontal inferior', 'c': false}]
       }
     ],
     5: [
       {
         'tipo': 'CONVERSAÇÃO NATURAL REAL',
-        'q':
-            'Em velocidade de conversação natural avançada, a omissão de pronomes repetitivos é permitida?',
-        'a': [
-          {'t': 'Sim, a marcação ocular substitui pronomes', 'c': true},
-          {'t': 'Não, quebra totalmente a gramática oficial', 'c': false}
-        ]
+        'q': 'Em velocidade de conversação natural avançada, a omissão de pronomes repetitivos é permitida?',
+        'a': [{'t': 'Sim, a marcação ocular substitui pronomes', 'c': true}, {'t': 'Não, quebra totalmente a gramática oficial', 'c': false}]
       }
     ]
   };
@@ -1004,9 +809,7 @@ class _QuizJogoEngineState extends State<QuizJogoEngine> {
         } else {
           _finalizado = true;
           AppState.xp += 50;
-          if (widget.nivelSelecionado ==
-                  AppState.nivelAtualMaximoDesbloqueado &&
-              AppState.nivelAtualMaximoDesbloqueado < 5) {
+          if (widget.nivelSelecionado == AppState.nivelAtualMaximoDesbloqueado && AppState.nivelAtualMaximoDesbloqueado < 5) {
             AppState.nivelAtualMaximoDesbloqueado++;
             if (AppState.nivelAtualMaximoDesbloqueado == 3) {
               AppState.medalhas.add('Intermediária 🏆');
@@ -1020,10 +823,8 @@ class _QuizJogoEngineState extends State<QuizJogoEngine> {
   @override
   Widget build(BuildContext context) {
     var listaFase = bancoQuestoesPorNivel[widget.nivelSelecionado] ?? [];
-    if (listaFase.isEmpty)
-      return const Scaffold(
-          body: Center(child: Text("Fase Em Desenvolvimento")));
-
+    if (listaFase.isEmpty) return const Scaffold(body: Center(child: Text("Fase Em Desenvolvimento")));
+    
     double progresso = (_indexQuestao + 1) / listaFase.length;
 
     return Scaffold(
@@ -1031,12 +832,9 @@ class _QuizJogoEngineState extends State<QuizJogoEngine> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: const Color(0xFF0F172A),
-        title: Text('Desafio Nível ${widget.nivelSelecionado}',
-            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+        title: Text('Desafio Nível ${widget.nivelSelecionado}', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
         elevation: 0,
-        leading: IconButton(
-            icon: const Icon(Icons.close_rounded),
-            onPressed: () => Navigator.pop(context)),
+        leading: IconButton(icon: const Icon(Icons.close_rounded), onPressed: () => Navigator.pop(context)),
       ),
       body: SafeArea(
         child: Padding(
@@ -1046,42 +844,19 @@ class _QuizJogoEngineState extends State<QuizJogoEngine> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                          padding: const EdgeInsets.all(24),
-                          decoration: const BoxDecoration(
-                              color: Color(0xFFFEF08A), shape: BoxShape.circle),
-                          child: const Icon(Icons.emoji_events_rounded,
-                              size: 70, color: Color(0xFFEAB308))),
+                      Container(padding: const EdgeInsets.all(24), decoration: const BoxDecoration(color: Color(0xFFFEF08A), shape: BoxShape.circle), child: const Icon(Icons.emoji_events_rounded, size: 70, color: Color(0xFFEAB308))),
                       const SizedBox(height: 24),
-                      const Text('Fase Concluída! 🎉',
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w900,
-                              color: Color(0xFF0F172A))),
+                      const Text('Fase Concluída! 🎉', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
                       const SizedBox(height: 8),
-                      const Text(
-                          'Você ganhou +50 XP e desbloqueou a próxima trilha!',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF64748B),
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
+                      const Text('Você ganhou +50 XP e desbloqueou a próxima trilha!', style: TextStyle(fontSize: 14, color: Color(0xFF64748B), fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                       const SizedBox(height: 40),
                       SizedBox(
                         width: double.infinity,
                         height: 54,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF58CC02),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                              elevation: 4,
-                              shadowColor: const Color(0xFF46A302)),
+                          style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF58CC02), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), elevation: 4, shadowColor: const Color(0xFF46A302)),
                           onPressed: () => Navigator.pop(context),
-                          child: const Text('VOLTAR PARA A TRILHA',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
+                          child: const Text('VOLTAR PARA A TRILHA', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                         ),
                       )
                     ],
@@ -1095,55 +870,32 @@ class _QuizJogoEngineState extends State<QuizJogoEngine> {
                         Expanded(
                           child: Container(
                             height: 14,
-                            decoration: BoxDecoration(
-                                color: const Color(0xFFE2E8F0),
-                                borderRadius: BorderRadius.circular(20)),
+                            decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(20)),
                             child: Stack(
                               children: [
                                 AnimatedContainer(
                                   duration: const Duration(milliseconds: 300),
-                                  width: MediaQuery.of(context).size.width *
-                                      0.7 *
-                                      progresso,
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xFF58CC02),
-                                      borderRadius: BorderRadius.circular(20)),
+                                  width: MediaQuery.of(context).size.width * 0.7 * progresso,
+                                  decoration: BoxDecoration(color: const Color(0xFF58CC02), borderRadius: BorderRadius.circular(20)),
                                 ),
                               ],
                             ),
                           ),
                         ),
                         const SizedBox(width: 16),
-                        Text('${_indexQuestao + 1}/${listaFase.length}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xFF94A3B8))),
+                        Text('${_indexQuestao + 1}/${listaFase.length}', style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF94A3B8))),
                       ],
                     ),
                     const SizedBox(height: 32),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 6),
-                      decoration: BoxDecoration(
-                          color: const Color(0xFF0F172A),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Text(listaFase[_indexQuestao]['tipo'] as String,
-                          style: const TextStyle(
-                              color: Color(0xFF38BDF8),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 11,
-                              letterSpacing: 1.0)),
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                      decoration: BoxDecoration(color: const Color(0xFF0F172A), borderRadius: BorderRadius.circular(12)),
+                      child: Text(listaFase[_indexQuestao]['tipo'] as String, style: const TextStyle(color: Color(0xFF38BDF8), fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 1.0)),
                     ),
                     const SizedBox(height: 20),
-                    Text(listaFase[_indexQuestao]['q'] as String,
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFF0F172A),
-                            height: 1.3)),
+                    Text(listaFase[_indexQuestao]['q'] as String, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF0F172A), height: 1.3)),
                     const SizedBox(height: 32),
-                    ...List.generate(
-                        (listaFase[_indexQuestao]['a'] as List).length, (i) {
+                    ...List.generate((listaFase[_indexQuestao]['a'] as List).length, (i) {
                       var op = (listaFase[_indexQuestao]['a'] as List)[i];
                       Color backColor = Colors.white;
                       Color borderColor = const Color(0xFFE2E8F0);
@@ -1174,26 +926,14 @@ class _QuizJogoEngineState extends State<QuizJogoEngine> {
                                 top: BorderSide(color: borderColor, width: 2),
                                 left: BorderSide(color: borderColor, width: 2),
                                 right: BorderSide(color: borderColor, width: 2),
-                                bottom:
-                                    BorderSide(color: borderColor, width: 5.0),
+                                bottom: BorderSide(color: borderColor, width: 5.0),
                               ),
                             ),
                             child: Row(
                               children: [
-                                CircleAvatar(
-                                    radius: 12,
-                                    backgroundColor: const Color(0xFFF1F5F9),
-                                    child: Text('${i + 1}',
-                                        style: const TextStyle(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.bold))),
+                                CircleAvatar(radius: 12, backgroundColor: const Color(0xFFF1F5F9), child: Text('${i+1}', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold))),
                                 const SizedBox(width: 16),
-                                Expanded(
-                                    child: Text(op['t'] as String,
-                                        style: TextStyle(
-                                            color: fontColor,
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 14))),
+                                Expanded(child: Text(op['t'] as String, style: TextStyle(color: fontColor, fontWeight: FontWeight.w800, fontSize: 14))),
                               ],
                             ),
                           ),
@@ -1220,44 +960,27 @@ class VideoAulasScreen extends StatelessWidget {
       builder: (context) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.75,
-          decoration: const BoxDecoration(
-              color: Color(0xFF0F172A),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(32))),
+          decoration: const BoxDecoration(color: Color(0xFF0F172A), borderRadius: BorderRadius.vertical(top: Radius.circular(32))),
           padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
-                  child: Container(
-                      width: 40,
-                      height: 5,
-                      decoration: BoxDecoration(
-                          color: Colors.white24,
-                          borderRadius: BorderRadius.circular(10)))),
+              Center(child: Container(width: 40, height: 5, decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(10)))),
               const SizedBox(height: 24),
               Container(
                 height: 220,
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: Colors.white10)),
+                decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(24), border: Border.all(color: Colors.white10)),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    const Icon(Icons.play_circle_filled_rounded,
-                        color: Color(0xFF38BDF8), size: 64),
+                    const Icon(Icons.play_circle_filled_rounded, color: Color(0xFF38BDF8), size: 64),
                     Positioned(
-                      bottom: 16,
-                      left: 16,
-                      right: 16,
+                      bottom: 16, left: 16, right: 16,
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('02:40 / 15:00',
-                              style: TextStyle(
-                                  color: Colors.white60, fontSize: 11)),
-                          Icon(Icons.fullscreen_rounded,
-                              color: Colors.white, size: 18),
+                          Text('02:40 / 15:00', style: TextStyle(color: Colors.white60, fontSize: 11)),
+                          Icon(Icons.fullscreen_rounded, color: Colors.white, size: 18),
                         ],
                       ),
                     )
@@ -1265,35 +988,17 @@ class VideoAulasScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              Text(nivel.toUpperCase(),
-                  style: const TextStyle(
-                      color: Color(0xFF38BDF8),
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0)),
+              Text(nivel.toUpperCase(), style: const TextStyle(color: Color(0xFF38BDF8), fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
               const SizedBox(height: 8),
-              Text(titulo,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold)),
+              Text(titulo, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 12),
-              const Text(
-                  'Esta videoaula compreende a análise de parâmetros estruturais e a correção de gestos estruturais obrigatórios.',
-                  style: TextStyle(
-                      color: Color(0xFF94A3B8), fontSize: 13, height: 1.4)),
+              const Text('Esta videoaula compreende a análise de parâmetros estruturais e a correção de gestos estruturais obrigatórios.', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 13, height: 1.4)),
               const Spacer(),
               ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: const Color(0xFF0F172A),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16))),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: const Color(0xFF0F172A), padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(Icons.pause_rounded),
-                label: const Text('MINIMIZAR PLAYER',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                label: const Text('MINIMIZAR PLAYER', style: TextStyle(fontWeight: FontWeight.bold)),
               )
             ],
           ),
@@ -1305,23 +1010,14 @@ class VideoAulasScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iniciante = [
-      {
-        'titulo': 'Módulo Core: Alfabeto e Primeiros Passos',
-        'duracao': '10 min'
-      },
-      {
-        'titulo': 'Gramática I: Estrutura do Espaço Neutro',
-        'duracao': '08 min'
-      },
+      {'titulo': 'Módulo Core: Alfabeto e Primeiros Passos', 'duracao': '10 min'},
+      {'titulo': 'Gramática I: Estrutura do Espaço Neutro', 'duracao': '08 min'},
     ];
     final intermediario = [
       {'titulo': 'Módulo Avançado de Sinais de Alimentos', 'duracao': '14 min'},
     ];
     final avancado = [
-      {
-        'titulo': 'Uso Prático de Classificadores Complexos',
-        'duracao': '22 min'
-      },
+      {'titulo': 'Uso Prático de Classificadores Complexos', 'duracao': '22 min'},
     ];
 
     return DefaultTabController(
@@ -1332,17 +1028,12 @@ class VideoAulasScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           foregroundColor: const Color(0xFF0F172A),
           elevation: 0,
-          title: const Text('Streaming Hub de Aulas',
-              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+          title: const Text('Streaming Hub de Aulas', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
           bottom: const TabBar(
             labelColor: Color(0xFF0F172A),
             unselectedLabelColor: Color(0xFF94A3B8),
             indicatorColor: Color(0xFF0F172A),
-            tabs: [
-              Tab(text: 'Iniciante'),
-              Tab(text: 'Médio'),
-              Tab(text: 'Avançado')
-            ],
+            tabs: [Tab(text: 'Iniciante'), Tab(text: 'Médio'), Tab(text: 'Avançado')],
           ),
         ),
         body: TabBarView(
@@ -1356,43 +1047,27 @@ class VideoAulasScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAbasVideos(
-      BuildContext context, List<Map<String, String>> videos, String nivel) {
+  Widget _buildAbasVideos(BuildContext context, List<Map<String, String>> videos, String nivel) {
     return ListView.builder(
       padding: const EdgeInsets.all(20),
       itemCount: videos.length,
       itemBuilder: (context, i) {
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 6),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: const Color(0xFFE2E8F0))),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), border: Border.all(color: const Color(0xFFE2E8F0))),
           child: ListTile(
             contentPadding: const EdgeInsets.all(16),
             leading: Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                  color: const Color(0xFFF1F5F9),
-                  borderRadius: BorderRadius.circular(14)),
-              child: const Icon(Icons.play_arrow_rounded,
-                  color: Color(0xFF0F172A), size: 24),
+              width: 48, height: 48,
+              decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(14)),
+              child: const Icon(Icons.play_arrow_rounded, color: Color(0xFF0F172A), size: 24),
             ),
-            title: Text(videos[i]['titulo']!,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF0F172A),
-                    fontSize: 14)),
+            title: Text(videos[i]['titulo']!, style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0F172A), fontSize: 14)),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 4.0),
-              child: Text(
-                  'Duração: ${videos[i]['duracao']} • Clique para assistir',
-                  style:
-                      const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
+              child: Text('Duração: ${videos[i]['duracao']} • Clique para assistir', style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
             ),
-            onTap: () =>
-                _abrirPlayerVideo(context, videos[i]['titulo']!, nivel),
+            onTap: () => _abrirPlayerVideo(context, videos[i]['titulo']!, nivel),
           ),
         );
       },
@@ -1417,21 +1092,16 @@ class _FavoritosScreenState extends State<FavoritosScreen> {
         backgroundColor: Colors.white,
         foregroundColor: const Color(0xFF0F172A),
         elevation: 0,
-        title: const Text('Meus Sinais Favoritos',
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+        title: const Text('Meus Sinais Favoritos', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
       ),
       body: AppState.listaFavoritos.isEmpty
           ? Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.star_border_rounded,
-                      size: 64, color: Color(0xFFCBD5E1)),
+                  const Icon(Icons.star_border_rounded, size: 64, color: Color(0xFFCBD5E1)),
                   const SizedBox(height: 16),
-                  const Text('Nenhum sinal favoritado ainda.',
-                      style: TextStyle(
-                          color: Color(0xFF64748B),
-                          fontWeight: FontWeight.bold)),
+                  const Text('Nenhum sinal favoritado ainda.', style: TextStyle(color: Color(0xFF64748B), fontWeight: FontWeight.bold)),
                 ],
               ),
             )
@@ -1441,29 +1111,17 @@ class _FavoritosScreenState extends State<FavoritosScreen> {
               itemBuilder: (context, i) {
                 return Container(
                   margin: const EdgeInsets.symmetric(vertical: 6),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(color: const Color(0xFFE2E8F0))),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), border: Border.all(color: const Color(0xFFE2E8F0))),
                   child: ListTile(
                     contentPadding: const EdgeInsets.all(16),
-                    leading: const CircleAvatar(
-                        backgroundColor: Color(0xFFFEF08A),
-                        child:
-                            Icon(Icons.star_rounded, color: Color(0xFFEAB308))),
-                    title: Text(AppState.listaFavoritos[i]['nome']!,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFF0F172A))),
+                    leading: const CircleAvatar(backgroundColor: Color(0xFFFEF08A), child: Icon(Icons.star_rounded, color: Color(0xFFEAB308))),
+                    title: Text(AppState.listaFavoritos[i]['nome']!, style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF0F172A))),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 4.0),
-                      child: Text(AppState.listaFavoritos[i]['desc']!,
-                          style: const TextStyle(
-                              color: Color(0xFF64748B), fontSize: 13)),
+                      child: Text(AppState.listaFavoritos[i]['desc']!, style: const TextStyle(color: Color(0xFF64748B), fontSize: 13)),
                     ),
                     trailing: IconButton(
-                      icon: const Icon(Icons.delete_outline_rounded,
-                          color: Colors.redAccent),
+                      icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent),
                       onPressed: () {
                         setState(() {
                           AppState.listaFavoritos.removeAt(i);
@@ -1497,65 +1155,48 @@ class _TradutorScreenState extends State<TradutorScreen> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         elevation: 0,
-        title: const Text('Neural Vision Translator',
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 15, letterSpacing: 0.5)),
+        title: const Text('Neural Vision Translator', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, letterSpacing: 0.5)),
       ),
       body: Stack(
         children: [
           Positioned.fill(
-            child: _cameraAtiva
-                ? Container(
-                    color: const Color(0xFF1E293B),
-                    child: Center(
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          const Icon(Icons.face_retouching_natural_rounded,
-                              size: 100, color: Colors.white10),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.75,
-                            height: MediaQuery.of(context).size.height * 0.45,
+            child: _cameraAtiva 
+              ? Container(
+                  color: const Color(0xFF1E293B),
+                  child: Center(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        const Icon(Icons.face_retouching_natural_rounded, size: 100, color: Colors.white10),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.75,
+                          height: MediaQuery.of(context).size.height * 0.45,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xFF38BDF8).withOpacity(0.4), width: 2),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                        ),
+                        Positioned(
+                          top: MediaQuery.of(context).size.height * 0.15,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            height: 3,
                             decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      const Color(0xFF38BDF8).withOpacity(0.4),
-                                  width: 2),
-                              borderRadius: BorderRadius.circular(24),
+                              color: const Color(0xFF38BDF8),
+                              boxShadow: [BoxShadow(color: const Color(0xFF38BDF8).withOpacity(0.8), blurRadius: 12, spreadRadius: 2)],
                             ),
                           ),
-                          Positioned(
-                            top: MediaQuery.of(context).size.height * 0.15,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              height: 3,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF38BDF8),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: const Color(0xFF38BDF8)
-                                          .withOpacity(0.8),
-                                      blurRadius: 12,
-                                      spreadRadius: 2)
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  )
-                : const Center(
-                    child: Text('Hardware óptico em modo standby.',
-                        style: TextStyle(
-                            color: Color(0xFF64748B),
-                            fontWeight: FontWeight.bold)),
                   ),
+                )
+              : const Center(
+                  child: Text('Hardware óptico em modo standby.', style: TextStyle(color: Color(0xFF64748B), fontWeight: FontWeight.bold)),
+                ),
           ),
           Positioned(
-            bottom: 32,
-            left: 24,
-            right: 24,
+            bottom: 32, left: 24, right: 24,
             child: Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
@@ -1570,44 +1211,25 @@ class _TradutorScreenState extends State<TradutorScreen> {
                   Row(
                     children: [
                       Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                            color: _cameraAtiva ? Colors.green : Colors.amber,
-                            shape: BoxShape.circle),
+                        width: 10, height: 10,
+                        decoration: BoxDecoration(color: _cameraAtiva ? Colors.green : Colors.amber, shape: BoxShape.circle),
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        _cameraAtiva
-                            ? 'PROCESSANDO REDE NEURAL'
-                            : 'SENSOR PAUSADO',
-                        style: TextStyle(
-                            color: _cameraAtiva
-                                ? const Color(0xFF38BDF8)
-                                : const Color(0xFF94A3B8),
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1),
+                        _cameraAtiva ? 'PROCESSANDO REDE NEURAL' : 'SENSOR PAUSADO', 
+                        style: TextStyle(color: _cameraAtiva ? const Color(0xFF38BDF8) : const Color(0xFF94A3B8), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
                       ),
                     ],
                   ),
                   const SizedBox(height: 12),
                   const Text(
-                    'Resultado da Tradução:',
-                    style: TextStyle(
-                        color: Color(0xFF64748B),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500),
+                    'Resultado da Tradução:', 
+                    style: TextStyle(color: Color(0xFF64748B), fontSize: 12, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    _cameraAtiva
-                        ? 'Aguardando gesto estruturado...'
-                        : 'Dispositivo offline',
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                    _cameraAtiva ? 'Aguardando gesto estruturado...' : 'Dispositivo offline',
+                    style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -1623,8 +1245,7 @@ class _TradutorScreenState extends State<TradutorScreen> {
             _cameraAtiva = !_cameraAtiva;
           });
         },
-        child: Icon(
-            _cameraAtiva ? Icons.videocam_rounded : Icons.videocam_off_rounded),
+        child: Icon(_cameraAtiva ? Icons.videocam_rounded : Icons.videocam_off_rounded),
       ),
     );
   }
